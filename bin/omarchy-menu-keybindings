@@ -101,6 +101,14 @@ dynamic_bindings() {
       -e 's/^9,/SHIFT ALT,/' \
       -e 's/^12,/CTRL ALT,/' \
       -e 's/^13,/SHIFT CTRL ALT,/' \
+      -e 's/^32,/HYPER,/' \
+      -e 's/^33,/HYPER SHIFT,/' \
+      -e 's/^36,/HYPER CTRL,/' \
+      -e 's/^37,/HYPER SHIFT CTRL,/' \
+      -e 's/^40,/HYPER ALT,/' \
+      -e 's/^41,/HYPER SHIFT ALT,/' \
+      -e 's/^44,/HYPER CTRL ALT,/' \
+      -e 's/^45,/HYPER SHIFT CTRL ALT,/' \
       -e 's/^64,/SUPER,/' \
       -e 's/^65,/SUPER SHIFT,/' \
       -e 's/^68,/SUPER CTRL,/' \
