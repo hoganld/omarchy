@@ -1,18 +1,18 @@
 default partial modifier_keys
-xkb_symbols "base" {
+xkb_symbols "pcmods" {
   key <LWIN> {[ Hyper_L ]};
   key <LALT> {[ Meta_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "tkl" {
-  include "kog(base)"
-  key <PAUS> {[ Zenkaku_Hankaku ]};
-  key <SCLK> {[ Multi_key ]};
 };
 
 partial modifier_keys
 xkb_symbols "macmods" {
   key <LALT> {[ Hyper_L ]};
   key <LWIN> {[ Meta_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "wasd" {
+  include "kog(pcmods)"
+  key <PAUS> {[ Zenkaku_Hankaku ]};
+  key <SCLK> {[ Multi_key ]};
 };
