@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pkill -x emacs
+setsid uwsm-app -- emacs --daemon >/dev/null 2>&1 &
