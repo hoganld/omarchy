@@ -1,0 +1,21 @@
+! layout = keycodes
+  us = evdev+aliases(qwerty)
+  code = evdev+aliases(qwerty)
+  mac = evdev+aliases(qwerty)
+
+! layout = types
+  us = complete
+  code = complete
+  mac = complete
+
+! layout = compat
+  us = complete
+  code = complete
+  mac = complete
+
+! layout = symbols
+  us = pc+us+inet(evdev)+kog
+  code = pc+us+inet(evdev)+kog(tkl)
+  mac = pc+us+inet(evdev)+kog(macmods)
+
+! include %S/evdev
