@@ -23,6 +23,7 @@ docker-buildx
 docker-compose
 dotnet-runtime-9.0
 dust
+emacs-lucid
 evince
 exfatprogs
 expac
@@ -30,6 +31,7 @@ eza
 fastfetch
 fcitx5
 fcitx5-gtk
+fcitx5-mozc
 fcitx5-qt
 fd
 ffmpegthumbnailer
@@ -37,7 +39,6 @@ fontconfig
 fzf
 ghostty
 github-cli
-gnome-calculator
 gnome-keyring
 gnome-themes-extra
 grim
@@ -60,7 +61,6 @@ inetutils
 inxi
 iwd
 jq
-kdenlive
 kvantum-qt5
 lazydocker
 lazygit
@@ -85,8 +85,6 @@ noto-fonts-emoji
 noto-fonts-extra
 nss-mdns
 nvim
-obs-studio
-obsidian
 omarchy-chromium
 omarchy-nvim
 omarchy-walker
@@ -122,7 +120,6 @@ tobi-try
 ttf-cascadia-mono-nerd
 ttf-ia-writer
 ttf-jetbrains-mono-nerd
-typora
 tzupdate
 ufw
 ufw-docker
@@ -131,6 +128,7 @@ usage
 uwsm
 waybar
 wayfreeze
+wev
 whois
 wireless-regdb
 wiremix
