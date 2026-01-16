@@ -1,0 +1,35 @@
+#!/bin/bash
+# This script is called by the custom/language Waybar plugin.
+# See the Waybar config.jsonc file in this repository.
+
+# Translate between Fcitx and Waybar
+fcitx-state-in-waybar-format() {
+  index=$(fcitx5-remote)
+
+  if [ $index = 2 ]; then
+    language="Japanese";
+    alt="jp"
+  else
+    language="English";
+    alt="en";
+  fi
+
+  data="{\"text\": \"$language\", \"alt\": \"$alt\"}"
+  echo $data | jq --unbuffered --compact-output
+}
+
+# Keep track of the *original* Parent PID
+waybar_pid=$PPID
+
+# Initialize widget
+echo $(fcitx-state-in-waybar-format);
+
+# Listen for fcitx language changes and restarts
+dbus-monitor "destination='org.fcitx.Fctix5',member='Toggle'" | while IFS= read -r line; do
+  if [[ ! -d /proc/$waybar_pid ]]; then
+    # Exit if the parent waybar process has stopped.
+    exit 0
+  elif [[ $line == *"Toggle"* ]]; then
+    echo $(fcitx-state-in-waybar-format);
+  fi
+done

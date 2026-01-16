@@ -1,0 +1,11 @@
+#!/bin/bash
+
+fcitx5-remote -t
+
+im=$(fcitx5-remote)
+
+if [ $im = 1 ]; then
+  notify-send "ABC";
+else
+  notify-send "文字";
+fi
