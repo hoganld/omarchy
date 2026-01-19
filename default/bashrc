@@ -13,4 +13,4 @@ source ~/.local/share/omarchy/default/bash/rc
 alias vi="nvim"
 alias vim="nvim"
 
-export EDITOR="omarchy-launch-emacs"
+export EDITOR="omarchy-launch-emacs-floating"
