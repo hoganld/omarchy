@@ -1,0 +1,13 @@
+#!/bin/bash
+
+OMARCHY_THEMES_PATH="$OMARCHY_PATH/themes"
+USER_THEMES_PATH="$HOME/.config/omarchy/themes"
+
+THEME_NAME=$1
+
+if [[ -d "$OMARCHY_THEMES_PATH/$THEME_NAME/fcitx5" || -d "$USER_THEMES_PATH/$THEME_NAME/fcitx5" ]]; then
+  # This gdbus command comes from this GitHub discussion: https://github.com/fcitx/fcitx5/issues/900#issuecomment-1913679787
+  gdbus call --session --dest org.fcitx.Fcitx5 --object-path /controller --method org.fcitx.Fcitx.Controller1.SetConfig fcitx://config/addon/classicui "<{'Theme': <'$THEME_NAME'>}>"
+else
+  echo "Theme missing. Ignoring command."
+fi
