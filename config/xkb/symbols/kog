@@ -11,6 +11,11 @@ xkb_symbols "macmods" {
 };
 
 partial modifier_keys
+xkb_symbols "control_on_capslock" {
+  key <CAPS> {[ Control_L ]};
+};
+
+partial modifier_keys
 xkb_symbols "wasd" {
   include "kog(pcmods)"
   key <PAUS> {[ Zenkaku_Hankaku ]};
