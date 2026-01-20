@@ -1,0 +1,43 @@
+#+TITLE: Post-Install Checklist
+
+* Check the following:
+- [ ] Emacs daemon starts on login
+- [ ] hypridle doesn't start the screen saver until 5 minutes have passed
+- [ ] ~/.local/bin is in $PATH
+- [ ] monitor is using 1:1 resolution
+- [ ] Capslock is NOT Compose
+- [ ] Numlock is NOT on
+- [ ] Mouse sensitivity is sane
+- [ ] Keyboard layout
+  - should have HYPER key
+  - should have META key
+  - should have SUPER key
+  - should have ALT key
+  - depending on layout, might have COMPOSE key
+  - depending on layout, might have ZENKAKU_HANKAKU key
+- [ ] Keybindings
+  - HYPER key
+  - IJKL navigation
+  - arrow key resizing
+- [ ] kitty as default terminal, font size 12
+- [ ] Waybar
+  - sane font size
+  - sane padding
+  - language widget should work
+  - no system tray
+- [ ] omarchy-launch-emacs (HYPER SHIFT E)
+- [ ] omarchy-launch-emacs-floating
+  - git commit
+  - launch hyprland looknfeel editor from Omarchy menu
+- [ ] Emacs in main menu (no emacsclient)
+- [ ] Japanese should work (might need to run omarchy-toggle-language manually)
+- [ ] Fcitx themes should match Omarchy
+- [ ] XCompose should have fractions and the Greek alphabet
+- [ ] Some apps should not be installed
+  - Obsidian
+  - OBS Studio
+  - Typora
+  - WhatsApp
+  - Kdenlive
+  - GNOME Calculator
+- [ ] wev should be available
