@@ -11,8 +11,12 @@ xkb_symbols "macmods" {
 };
 
 partial modifier_keys
-xkb_symbols "control_on_capslock" {
-  key <CAPS> {[ Control_L ]};
+xkb_symbols "capscontrol" {
+  replace key <CAPS> {
+    type[Group1] = "ONE_LEVEL",
+    symbols[Group1] = [ Control_L ],
+    actions[Group1] = [ SetMods(modifiers=Control) ]
+  };
 };
 
 partial modifier_keys
