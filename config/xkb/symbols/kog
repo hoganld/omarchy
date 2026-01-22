@@ -6,7 +6,7 @@ xkb_symbols "pcmods" {
 
 partial modifier_keys
 xkb_symbols "macmods" {
-  key <LALT> {[ Hyper_L ]};
+  key <LCTL> {[ Hyper_L ]};
   key <LWIN> {[ Meta_L ]};
 };
 
