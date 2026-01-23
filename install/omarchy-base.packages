@@ -23,6 +23,7 @@ docker-buildx
 docker-compose
 dotnet-runtime-9.0
 dust
+emacs
 evince
 exfatprogs
 expac
