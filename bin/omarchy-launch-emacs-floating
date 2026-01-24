@@ -1,3 +1,4 @@
 #!/bin/bash
 
+xrdb -merge ~/.Xresources
 exec emacsclient -c -a '' --frame-parameters "((name . \"FloatingEmacs\"))" "$@"
