@@ -25,3 +25,8 @@ xkb_symbols "wasd" {
   key <PAUS> {[ Zenkaku_Hankaku ]};
   key <SCLK> {[ Multi_key ]};
 };
+
+partial modifier_keys
+xkb_symbols "f10compose" {
+  key <FK10> {[ Multi_key ]};
+};

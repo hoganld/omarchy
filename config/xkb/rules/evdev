@@ -16,6 +16,6 @@
 ! layout = symbols
   usa = maxmods+us+inet(evdev)+kog
   code = maxmods+us+inet(evdev)+kog(wasd)
-  mac = maxmods+us+inet(evdev)+kog(macmods)+kog(capscontrol)
+  mac = maxmods+us+inet(evdev)+kog(macmods)+kog(capscontrol)+kog(f10compose)
 
 ! include %S/evdev
