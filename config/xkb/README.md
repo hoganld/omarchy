@@ -86,20 +86,26 @@ Of the defaults, the one that works out of the box is Mod4 as Super. Don't bothe
 
 But the remaining modifiers can be customized to free up two additional modifiers: Hyper and Alt.
 
-Most keyboards don't have a "Meta" key, so Emacs treats Alt as Meta. But if you have a dedicated Meta key, you can free up Alt as another modifier, which means another namespace for keybindings.
+Keyboards with a proper "Meta" key have long disappeared, so Emacs treats Alt as Meta. But if you *create* dedicated Meta key, you can free up Alt as another modifier, which means another namespace for keybindings.
 
-The problem is that if both Alt and Meta are mapped to Mod1, then Emacs thinks they are all the same thing. To get both Meta and Alt, what you want is for them to be different modifiers. Ideally: Mod1 = Alt; Mod5 = Meta. (Emacs will work if you put Alt on Mod5 and Meta on Mod1, but since Alt as Mod1 is a standard expectation, I prefer to leave that in place in order to not confuse other applications.)
+The problem is that if both Alt and Meta are mapped to Mod1, then Emacs thinks they are all the same thing (because they are -- they are just two different aliases for Mod1). To get both Meta and Alt, you must map them to different modifiers. Ideally: Mod1 = Alt; Mod2 = Meta. (Emacs will work if you put Alt on Mod2 and Meta on Mod1, but since Alt as Mod1 is a standard, I prefer to leave that in place in order to not confuse other applications.)
 
 That leaves Mod3 for Hyper.
 
-So the ideal modifier mapping is:
+And you still have an additional free modifier: Mod5. Most people would understandably question why you could possibly need another modifier, but that is because they do not use Emacs. Emacs recognizes Control, Meta, Alt, Super and Hyper. So if you can use Mod5 for your window manager, then you can have the full suite of Emacs modifiers.
+
+But what do you call Mod5? "Mod Five" is lame -- it sounds like something Elon Musk would name his kid -- and there are no other standard Linux modifier names remaining. (Arguably, we are already pushing the limits of "standard" with Meta and Hyper.) So I decided to steal the name "Command" from my Mac keyboard. So Mod5 is called "Command".
+
+In theory it is possible to create a new "virtual modifier" called Command in XKB. But I spent more time than I care to admit in writing trying to get it to work, and failed. But that doesn't actually matter. You can just map F24 (or whatever) to Mod5 and call it "$CMD" in your Hyprland keybindings and "Command" in your documentation and buy keycaps labeled "Command" and nobody will be able to stop you.
+
+So you end up with a modifier map that looks like this:
 
 Mod1 = Alt
-Mod2 = Num Lock
+Mod2 = Meta
 Mod3 = Hyper
 Mod4 = Super
-Mod5 = Meta
+Mod5 = Command
 
-These definitions are provided by the custom `symbols/pc` file here, and used by the layouts defined in the custom `rules/evdev`.
+These definitions are provided by the custom `symbols/maxmods` file here, and used by the layouts defined in the custom `rules/evdev`.
 
-Note: I originally mapped Mod2 to Meta, and unmapped Num Lock. That worked for a while, until I learned the hard way that something else sets Num Lock to Mod2 when the `numlock` key is on (or faked to be on by the system). That caused a collision between Meta and Num Lock, and thoroughly confused Emacs. The result was no useable Meta key in Emacs. Sad movies. Rather than try to swim upstream, I decided to leave Num Lock as Mod2 and put Meta on Mod5.
+*Important:* Never, under any circumstances, turn on the xkb option to enable NumLock by default. NumLock is utterly useless, and that option permanently sets the Mod2 bit. This confuses Emacs terribly.

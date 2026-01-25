@@ -101,6 +101,14 @@ dynamic_bindings() {
       -e 's/^9,/SHIFT ALT,/' \
       -e 's/^12,/CTRL ALT,/' \
       -e 's/^13,/SHIFT CTRL ALT,/' \
+      -e 's/^16,/META,/' \
+      -e 's/^17,/META SHIFT,/' \
+      -e 's/^20,/META CTRL,/' \
+      -e 's/^21,/META SHIFT CTRL,/' \
+      -e 's/^24,/META ALT,/' \
+      -e 's/^25,/META SHIFT ALT,/' \
+      -e 's/^28,/META CTRL ALT,/' \
+      -e 's/^29,/META SHIFT CTRL ALT,/' \
       -e 's/^32,/HYPER,/' \
       -e 's/^33,/HYPER SHIFT,/' \
       -e 's/^36,/HYPER CTRL,/' \
@@ -109,6 +117,14 @@ dynamic_bindings() {
       -e 's/^41,/HYPER SHIFT ALT,/' \
       -e 's/^44,/HYPER CTRL ALT,/' \
       -e 's/^45,/HYPER SHIFT CTRL ALT,/' \
+      -e 's/^48,/META HYPER,/' \
+      -e 's/^49,/META HYPER SHIFT,/' \
+      -e 's/^52,/META HYPER CTRL,/' \
+      -e 's/^53,/META HYPER SHIFT CTRL,/' \
+      -e 's/^56,/META HYPER ALT,/' \
+      -e 's/^57,/META HYPER SHIFT ALT,/' \
+      -e 's/^60,/META HYPER CTRL ALT,/' \
+      -e 's/^61,/META HYPER SHIFT CTRL ALT,/' \
       -e 's/^64,/SUPER,/' \
       -e 's/^65,/SUPER SHIFT,/' \
       -e 's/^68,/SUPER CTRL,/' \
@@ -116,7 +132,87 @@ dynamic_bindings() {
       -e 's/^72,/SUPER ALT,/' \
       -e 's/^73,/SUPER SHIFT ALT,/' \
       -e 's/^76,/SUPER CTRL ALT,/' \
-      -e 's/^77,/SUPER SHIFT CTRL ALT,/'
+      -e 's/^77,/SUPER SHIFT CTRL ALT,/' \
+      -e 's/^80,/META SUPER,/' \
+      -e 's/^81,/META SHIFT SUPER,/' \
+      -e 's/^84,/META CONTROL SUPER,/' \
+      -e 's/^85,/META SHIFT CONTROL SUPER,/' \
+      -e 's/^88,/META ALT SUPER,/' \
+      -e 's/^89,/META SHIFT ALT SUPER,/' \
+      -e 's/^92,/META CONTROL ALT SUPER,/' \
+      -e 's/^93,/META SHIFT CONTROL ALT SUPER,/' \
+      -e 's/^96,/HYPER SUPER,/' \
+      -e 's/^97,/HYPER SHIFT SUPER,/' \
+      -e 's/^100,/HYPER CONTROL SUPER,/' \
+      -e 's/^101,/HYPER SHIFT CONTROL SUPER,/' \
+      -e 's/^104,/HYPER ALT SUPER,/' \
+      -e 's/^105,/HYPER SHIFT ALT SUPER,/' \
+      -e 's/^108,/HYPER CONTROL ALT SUPER,/' \
+      -e 's/^109,/HYPER SHIFT CONTROL ALT SUPER,/' \
+      -e 's/^112,/META HYPER SUPER,/' \
+      -e 's/^113,/META HYPER SHIFT SUPER,/' \
+      -e 's/^116,/META HYPER CONTROL SUPER,/' \
+      -e 's/^117,/META HYPER SHIFT CONTROL SUPER,/' \
+      -e 's/^120,/META HYPER ALT SUPER,/' \
+      -e 's/^121,/META HYPER SHIFT ALT SUPER,/' \
+      -e 's/^124,/META HYPER CONTROL ALT SUPER,/' \
+      -e 's/^125,/META HYPER SHIFT CONTROL ALT SUPER,/' \
+      -e 's/^128,/CMD,/' \
+      -e 's/^129,/CMD SHIFT,/' \
+      -e 's/^132,/CMD CTRL,/' \
+      -e 's/^133,/CMD SHIFT CTRL,/' \
+      -e 's/^136,/CMD ALT,/' \
+      -e 's/^137,/CMD SHIFT ALT,/' \
+      -e 's/^140,/CMD CTRL ALT,/' \
+      -e 's/^141,/CMD SHIFT CTRL ALT,/' \
+      -e 's/^144,/META CMD,/' \
+      -e 's/^145,/META CMD SHIFT,/' \
+      -e 's/^148,/META CMD CTRL,/' \
+      -e 's/^149,/META CMD SHIFT CTRL,/' \
+      -e 's/^152,/META CMD ALT,/' \
+      -e 's/^153,/META CMD SHIFT ALT,/' \
+      -e 's/^156,/META CMD CTRL ALT,/' \
+      -e 's/^157,/META CMD SHIFT CTRL ALT,/' \
+      -e 's/^176,/META HYPER CMD,/' \
+      -e 's/^177,/META HYPER CMD SHIFT,/' \
+      -e 's/^180,/META HYPER CMD CTRL,/' \
+      -e 's/^181,/META HYPER CMD SHIFT CTRL,/' \
+      -e 's/^184,/META HYPER CMD ALT,/' \
+      -e 's/^185,/META HYPER CMD SHIFT ALT,/' \
+      -e 's/^188,/META HYPER CMD CTRL ALT,/' \
+      -e 's/^189,/META HYPER CMD SHIFT CTRL ALT,/' \
+      -e 's/^192,/CMD SUPER,/' \
+      -e 's/^193,/CMD SHIFT SUPER,/' \
+      -e 's/^196,/CMD CONTROL SUPER,/' \
+      -e 's/^197,/CMD SHIFT CONTROL SUPER,/' \
+      -e 's/^200,/CMD ALT SUPER,/' \
+      -e 's/^201,/CMD SHIFT ALT SUPER,/' \
+      -e 's/^204,/CMD CONTROL ALT SUPER,/' \
+      -e 's/^205,/CMD SHIFT CONTROL ALT SUPER,/' \
+      -e 's/^208,/META CMD SUPER,/' \
+      -e 's/^209,/META CMD SHIFT SUPER,/' \
+      -e 's/^212,/META CMD CONTROL SUPER,/' \
+      -e 's/^213,/META CMD SHIFT CONTROL SUPER,/' \
+      -e 's/^216,/META CMD ALT SUPER,/' \
+      -e 's/^217,/META CMD SHIFT ALT SUPER,/' \
+      -e 's/^220,/META CMD CONTROL ALT SUPER,/' \
+      -e 's/^221,/META CMD SHIFT CONTROL ALT SUPER,/' \
+      -e 's/^224,/HYPER CMD SUPER,/' \
+      -e 's/^225,/HYPER CMD SHIFT SUPER,/' \
+      -e 's/^228,/HYPER CMD CONTROL SUPER,/' \
+      -e 's/^229,/HYPER CMD SHIFT CONTROL SUPER,/' \
+      -e 's/^232,/HYPER CMD ALT SUPER,/' \
+      -e 's/^233,/HYPER CMD SHIFT ALT SUPER,/' \
+      -e 's/^236,/HYPER CMD CONTROL ALT SUPER,/' \
+      -e 's/^237,/HYPER CMD SHIFT CONTROL ALT SUPER,/' \
+      -e 's/^240,/META HYPER CMD SUPER,/' \
+      -e 's/^241,/META HYPER CMD SHIFT SUPER,/' \
+      -e 's/^244,/META HYPER CMD CONTROL SUPER,/' \
+      -e 's/^245,/META HYPER CMD SHIFT CONTROL SUPER,/' \
+      -e 's/^248,/META HYPER CMD ALT SUPER,/' \
+      -e 's/^249,/META HYPER CMD SHIFT ALT SUPER,/' \
+      -e 's/^252,/META HYPER CMD CONTROL ALT SUPER,/' \
+      -e 's/^253,/META HYPER CMD SHIFT CONTROL ALT SUPER,/'
 }
 
 # Hardcoded bindings, like the copy-url extension and such

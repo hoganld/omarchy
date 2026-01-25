@@ -32,14 +32,18 @@ xkb_symbols "pc105" {
     modifier_map Lock    { Caps_Lock };
     modifier_map Control { Control_L, Control_R };
     modifier_map Mod1    { Alt_L, Alt_R };
-    modifier_map Mod2    { Num_Lock };
+    modifier_map Mod2    { Meta_L, Meta_R };
     modifier_map Mod3    { Hyper_L, Hyper_R };
     modifier_map Mod4    { Super_L, Super_R };
-    modifier_map Mod5    { Meta_L, Meta_R };
+    // The "Command" key
+    modifier_map Mod5    { F24 };
 
-    // Four fake keys for virtual<->real modifiers mapping:
+    // Five fake keys for virtual<->real modifiers mapping:
     key  <ALT> {[  NoSymbol, Alt_L  ]};
     modifier_map Mod1  { <ALT> };
+
+    key <META> {[  NoSymbol, Meta_L  ]};
+    modifier_map Mod2  { <META> };
 
     key <HYPR> {[  NoSymbol, Hyper_L  ]};
     modifier_map Mod3  { <HYPR> };
@@ -47,8 +51,8 @@ xkb_symbols "pc105" {
     key <SUPR> {[  NoSymbol, Super_L  ]};
     modifier_map Mod4  { <SUPR> };
 
-    key <META> {[  NoSymbol, Meta_L  ]};
-    modifier_map Mod5  { <META> };
+    key <CMD> {[  NoSymbol, F24  ]};
+    modifier_map Mod5 { <CMD> };
 
     include "srvr_ctrl(fkey2vt)"
 

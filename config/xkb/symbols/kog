@@ -19,6 +19,14 @@ xkb_symbols "capscontrol" {
   };
 };
 
+// This is mostly here to serve as documentation
+// for how to implement a working CMD key, while
+// staying out of the way for the time being.
+partial modifier_keys
+xkb_symbols "cmd_on_rctl" {
+  key <RCTL> {[ F24 ]};
+};
+
 partial modifier_keys
 xkb_symbols "wasd" {
   include "kog(pcmods)"
