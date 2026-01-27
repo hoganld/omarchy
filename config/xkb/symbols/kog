@@ -27,14 +27,32 @@ xkb_symbols "cmd_on_rctl" {
   key <RCTL> {[ F24 ]};
 };
 
-partial modifier_keys
+partial alphanumeric_keys
 xkb_symbols "wasd" {
   include "kog(pcmods)"
   key <PAUS> {[ Zenkaku_Hankaku ]};
   key <SCLK> {[ Multi_key ]};
 };
 
-partial modifier_keys
+partial alphanumeric_keys
 xkb_symbols "f10compose" {
   key <FK10> {[ Multi_key ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "f15compose" {
+  key <FK15> {[ Multi_key ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "fcua" {
+  key <FK16> {[ XF86Paste ]};
+  key <FK17> {[ XF86Cut ]};
+  key <FK18> {[ XF86Copy ]};
+};
+
+partial modifier_keys
+xkb_symbols "fmods" {
+  key <FK13> {[ Meta_L ]};
+  key <FK14> {[ Hyper_L ]};
 };

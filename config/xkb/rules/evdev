@@ -2,20 +2,24 @@
   usa = evdev+aliases(qwerty)
   code = evdev+aliases(qwerty)
   mac = evdev+aliases(qwerty)
+  launch = evdev+aliases(qwerty)
 
 ! layout = types
   usa = complete
   code = complete
   mac = complete
+  launch = complete
 
 ! layout = compat
   usa = complete
   code = complete
   mac = complete
+  launch = complete
 
 ! layout = symbols
   usa = maxmods+us+inet(evdev)+kog
   code = maxmods+us+inet(evdev)+kog(wasd)
   mac = maxmods+us+inet(evdev)+kog(macmods)+kog(capscontrol)+kog(f10compose)
+  launch = maxmods+us+inet(evdev)+kog(fmods)+kog(f15compose)+kog(fcua)
 
 ! include %S/evdev
