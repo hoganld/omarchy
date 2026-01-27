@@ -39,18 +39,6 @@ xkb_symbols "f10compose" {
   key <FK10> {[ Multi_key ]};
 };
 
-partial alphanumeric_keys
-xkb_symbols "f15compose" {
-  key <FK15> {[ Multi_key ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "fcua" {
-  key <FK16> {[ XF86Paste ]};
-  key <FK17> {[ XF86Cut ]};
-  key <FK18> {[ XF86Copy ]};
-};
-
 partial modifier_keys
 xkb_symbols "fmods" {
   key <FK13> {[ Meta_L ]};
