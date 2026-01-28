@@ -20,6 +20,6 @@
   usa = maxmods+us+inet(evdev)+kog
   code = maxmods+us+inet(evdev)+kog(wasd)
   mac = maxmods+us+inet(evdev)+kog(macmods)+kog(capscontrol)+kog(f10compose)
-  launch = maxmods+us+inet(evdev)+kog(fmods)+compose(menu)
+  launch = maxmods+us+inet(evdev)+kog(fmods)+kog(escape_tilde)+compose(menu)
 
 ! include %S/evdev

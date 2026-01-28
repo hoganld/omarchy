@@ -44,3 +44,8 @@ xkb_symbols "fmods" {
   key <FK13> {[ Meta_L ]};
   key <FK14> {[ Hyper_L ]};
 };
+
+partial alphanumeric_keys
+xkb_symbols "escape_tilde" {
+  key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
+};
