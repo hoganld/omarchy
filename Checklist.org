@@ -1,9 +1,7 @@
 #+TITLE: Post-Install Checklist
 
 * Check the following:
-- [ ] Emacs daemon starts on login
 - [ ] hypridle doesn't start the screen saver until 5 minutes have passed
-- [ ] ~/.local/bin is in $PATH
 - [ ] monitor is using 1:1 resolution
 - [ ] Capslock is NOT Compose
 - [ ] Numlock is NOT on
@@ -19,7 +17,6 @@
   - HYPER key
   - IJKL navigation
   - arrow key resizing
-- [ ] kitty as default terminal, font size 12
 - [ ] Waybar
   - sane font size
   - sane padding
@@ -40,4 +37,8 @@
   - WhatsApp
   - Kdenlive
   - GNOME Calculator
-- [ ] wev should be available
+  - Google Maps
+  - Google Messages
+  - Google Photos
+  - Google Contacts
+  - ChatGPT
