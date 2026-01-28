@@ -1,17 +1,121 @@
-default partial modifier_keys
-xkb_symbols "pcmods" {
-  key <LWIN> {[ Hyper_L ]};
-  key <LALT> {[ Meta_L ]};
+// This "pc105" section replaces the  system `symbols/pc` file,
+// which defines the keys that are common to all standard layouts.
+// We modify those symbols to maximize the modifiers available to
+// Emacs and Hyprland.
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "pc105" {
+
+    key  <ESC> {[  Escape  ]};
+    key  <TAB> {[  Tab,  ISO_Left_Tab  ]};
+    key <CAPS> {[  Caps_Lock  ]};
+
+    key <BKSP> {[  BackSpace,  BackSpace  ]};
+    key <BKSL> {[  backslash,  bar  ]};
+    key <RTRN> {[  Return  ]};
+
+    // The extra key on many European keyboards:
+    key <LSGT> {[  less,  greater,    bar,  brokenbar  ]};
+
+    key <SPCE> {[  space  ]};
+
+    key <LFSH> {[  Shift_L    ]};
+    key <RTSH> {[  Shift_R    ]};
+    key <LCTL> {[  Control_L  ]};
+    key <RCTL> {[  Control_R  ]};
+    key <LALT> {[  Alt_L      ]};
+    key <RALT> {[  Alt_R      ]};
+    key <LWIN> {[  Super_L    ]};
+    key <RWIN> {[  Super_R    ]};
+
+    key <MENU> {[  Menu  ]};
+
+    // To the standard modifiers we add Meta, Hyper and F24 ("Command")
+    modifier_map Shift   { Shift_L, Shift_R };
+    modifier_map Lock    { Caps_Lock };
+    modifier_map Control { Control_L, Control_R };
+    modifier_map Mod1    { Alt_L, Alt_R };
+    modifier_map Mod2    { Meta_L, Meta_R };
+    modifier_map Mod3    { Hyper_L, Hyper_R };
+    modifier_map Mod4    { Super_L, Super_R };
+    modifier_map Mod5    { F24 };
+
+
+    // Five fake keys for virtual<->real modifiers mapping:
+    key  <ALT> {[  NoSymbol, Alt_L  ]};
+    modifier_map Mod1  { <ALT> };
+
+    key <META> {[  NoSymbol, Meta_L  ]};
+    modifier_map Mod2  { <META> };
+
+    key <HYPR> {[  NoSymbol, Hyper_L  ]};
+    modifier_map Mod3  { <HYPR> };
+
+    key <SUPR> {[  NoSymbol, Super_L  ]};
+    modifier_map Mod4  { <SUPR> };
+
+    key <CMD> {[  NoSymbol, F24  ]};
+    modifier_map Mod5 { <CMD> };
+
+    include "srvr_ctrl(fkey2vt)"
+
+    key <PRSC> {[  Print,  Sys_Req  ], type="PC_ALT_LEVEL2" };
+    key <SCLK> {[  Scroll_Lock  ]};
+    key <PAUS> {[  Pause,  Break  ], type="PC_CONTROL_LEVEL2" };
+
+    key  <INS> {[  Insert  ]};
+    key <DELE> {[  Delete  ]};
+    key <HOME> {[  Home    ]};
+    key  <END> {[  End     ]};
+    key <PGUP> {[  Prior   ]};
+    key <PGDN> {[  Next    ]};
+
+    key   <UP> {[  Up      ]};
+    key <DOWN> {[  Down    ]};
+    key <LEFT> {[  Left    ]};
+    key <RGHT> {[  Right   ]};
+
+    key <NMLK> {[  Num_Lock  ]};
+    include "keypad(x11)"
+
+    // Extra Japanese keys:
+    key <MUHE> {[  Muhenkan           ]};
+    key <HENK> {[  Henkan             ]};
+    key <HKTG> {[  Hiragana_Katakana  ]};
+    key <HIRA> {[  Hiragana           ]}; // This key and the next are rare.
+    key <KATA> {[  Katakana           ]};
+
+    // Extra Korean keys:
+    key <HNGL> {[  Hangul        ]};
+    key <HJCV> {[  Hangul_Hanja  ]};
+
+    key <OUTP> {[  XF86Display  ]};
+    key <KITG> {[  XF86KbdLightOnOff  ]};
+    key <KIDN> {[  XF86KbdBrightnessDown  ]};
+    key <KIUP> {[  XF86KbdBrightnessUp  ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "pause_zkhk" {
+  key <PAUS> {[ Zenkaku_Hankaku ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "sclk_compose" {
+  key <SCLK> {[ Multi_key ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "f10_compose" {
+  key <FK10> {[ Multi_key ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "escape_tilde" {
+  key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
 };
 
 partial modifier_keys
-xkb_symbols "macmods" {
-  key <LCTL> {[ Hyper_L ]};
-  key <LWIN> {[ Meta_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "capscontrol" {
+xkb_symbols "caps_control" {
   replace key <CAPS> {
     type[Group1] = "ONE_LEVEL",
     symbols[Group1] = [ Control_L ],
@@ -19,33 +123,78 @@ xkb_symbols "capscontrol" {
   };
 };
 
-// This is mostly here to serve as documentation
-// for how to implement a working CMD key, while
-// staying out of the way for the time being.
 partial modifier_keys
-xkb_symbols "cmd_on_rctl" {
-  key <RCTL> {[ F24 ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "wasd" {
-  include "kog(pcmods)"
-  key <PAUS> {[ Zenkaku_Hankaku ]};
-  key <SCLK> {[ Multi_key ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "f10compose" {
-  key <FK10> {[ Multi_key ]};
-};
-
-partial modifier_keys
-xkb_symbols "fmods" {
+xkb_symbols "f13_meta" {
   key <FK13> {[ Meta_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "f14_hyper" {
   key <FK14> {[ Hyper_L ]};
 };
 
-partial alphanumeric_keys
-xkb_symbols "escape_tilde" {
-  key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
+partial modifier_keys
+xkb_symbols "lalt_meta" {
+  key <LALT> {[ Meta_L ]};
+};
+
+// This is here to serve as documentation
+// for how to implement a working CMD key.
+// It could be used directly in the future.
+partial modifier_keys
+xkb_symbols "lctl_cmd" {
+  key <LCTL> {[ F24 ]};
+};
+
+partial modifier_keys
+xkb_symbols "lctl_hyper" {
+  key <LCTL> {[ Hyper_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "lwin_hyper" {
+  key <LWIN> {[ Hyper_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "lwin_meta" {
+  key <LWIN> {[ Meta_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "pc_mods" {
+  include "kog(lalt_meta)"
+  include "kog(lwin_hyper)"
+};
+
+partial modifier_keys
+xkb_symbols "mac_mods" {
+  include "kog(lctl_hyper)"
+  include "kog(lwin_meta)"
+};
+
+partial modifier_keys
+xkb_symbols "f_mods" {
+  include "kog(f13_meta)"
+  include "kog(f14_hyper)"
+};
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "mac" {
+  include "kog(mac_mods)"
+  include "kog(caps_control)"
+  include "kog(f10_compose)"
+};
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "launch" {
+  include "kog(f_mods)"
+  include "compose(menu)"
+};
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "code" {
+  include "kog(pc_mods)"
+  include "kog(pause_zkhk)"
+  include "kog(sclk_compose)"
 };
