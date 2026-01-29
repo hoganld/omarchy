@@ -27,9 +27,19 @@ xkb_symbols "pc105" {
     key <LWIN> {[  Super_L    ]};
     key <RWIN> {[  Super_R    ]};
 
+    // Bind the unbound F keys
+    key <FK13> {[  F13   ]};
+    key <FK14> {[  F14   ]};
+    key <FK15> {[  F15   ]};
+    key <FK16> {[  F16   ]};
+    key <FK17> {[  F17   ]};
+    key <FK18> {[  F18   ]};
+    key <FK19> {[  F19   ]};
+    key <FK24> {[  F24   ]};
+
     key <MENU> {[  Menu  ]};
 
-    // To the standard modifiers we add Meta, Hyper and F24 ("Command")
+    // To the standard modifiers we add Meta, Hyper and F18 ("Command")
     modifier_map Shift   { Shift_L, Shift_R };
     modifier_map Lock    { Caps_Lock };
     modifier_map Control { Control_L, Control_R };
@@ -37,7 +47,7 @@ xkb_symbols "pc105" {
     modifier_map Mod2    { Meta_L, Meta_R };
     modifier_map Mod3    { Hyper_L, Hyper_R };
     modifier_map Mod4    { Super_L, Super_R };
-    modifier_map Mod5    { F24 };
+    modifier_map Mod5    { F18 };
 
 
     // Five fake keys for virtual<->real modifiers mapping:
@@ -53,7 +63,7 @@ xkb_symbols "pc105" {
     key <SUPR> {[  NoSymbol, Super_L  ]};
     modifier_map Mod4  { <SUPR> };
 
-    key <CMD> {[  NoSymbol, F24  ]};
+    key <CMD> {[  NoSymbol, F18  ]};
     modifier_map Mod5 { <CMD> };
 
     include "srvr_ctrl(fkey2vt)"
@@ -95,13 +105,8 @@ xkb_symbols "pc105" {
 };
 
 partial alphanumeric_keys
-xkb_symbols "pause_zkhk" {
-  key <PAUS> {[ Zenkaku_Hankaku ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "sclk_compose" {
-  key <SCLK> {[ Multi_key ]};
+xkb_symbols "escape_tilde" {
+  key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
 };
 
 partial alphanumeric_keys
@@ -110,8 +115,28 @@ xkb_symbols "f10_compose" {
 };
 
 partial alphanumeric_keys
-xkb_symbols "escape_tilde" {
-  key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
+xkb_symbols "f13_print" {
+  key <FK13> {[ Print ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "f14_compose" {
+  key <FK14> {[ Multi_key ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "f15_kana" {
+  key <FK15> {[ Hiragana_Katakana ]};
+};
+
+partial modifier_keys
+xkb_symbols "f16_meta" {
+  key <FK16> {[ Meta_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "f17_hyper" {
+  key <FK17> {[ Hyper_L ]};
 };
 
 partial modifier_keys
@@ -124,36 +149,23 @@ xkb_symbols "caps_control" {
 };
 
 partial modifier_keys
-xkb_symbols "f13_meta" {
-  key <FK13> {[ Meta_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "f14_hyper" {
-  key <FK14> {[ Hyper_L ]};
-};
-
-partial modifier_keys
 xkb_symbols "lalt_meta" {
   key <LALT> {[ Meta_L ]};
 };
 
-// This is here to serve as documentation
-// for how to implement a working CMD key.
-// It could be used directly in the future.
+partial modifier_keys
+xkb_symbols "lalt_hyper" {
+  key <LALT> {[ Hyper_L ]};
+};
+
 partial modifier_keys
 xkb_symbols "lctl_cmd" {
-  key <LCTL> {[ F24 ]};
+  key <LCTL> {[ F18 ]};
 };
 
 partial modifier_keys
 xkb_symbols "lctl_hyper" {
   key <LCTL> {[ Hyper_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "lwin_hyper" {
-  key <LWIN> {[ Hyper_L ]};
 };
 
 partial modifier_keys
@@ -164,7 +176,7 @@ xkb_symbols "lwin_meta" {
 partial modifier_keys
 xkb_symbols "pc_mods" {
   include "kog(lalt_meta)"
-  include "kog(lwin_hyper)"
+  include "kog(lctl_hyper)"
 };
 
 partial modifier_keys
@@ -175,8 +187,14 @@ xkb_symbols "mac_mods" {
 
 partial modifier_keys
 xkb_symbols "f_mods" {
-  include "kog(f13_meta)"
-  include "kog(f14_hyper)"
+  include "kog(f16_meta)"
+  include "kog(f17_hyper)"
+};
+
+partial alphanumeric_keys modifier_keys
+xkb_symbols "usa" {
+  include "kog(pc_mods)"
+  include "kog(caps_control)"
 };
 
 partial alphanumeric_keys modifier_keys
@@ -189,12 +207,14 @@ xkb_symbols "mac" {
 partial alphanumeric_keys modifier_keys
 xkb_symbols "launch" {
   include "kog(f_mods)"
-  include "compose(menu)"
+  include "kog(f14_compose)"
 };
 
 partial alphanumeric_keys modifier_keys
 xkb_symbols "code" {
-  include "kog(pc_mods)"
-  include "kog(pause_zkhk)"
-  include "kog(sclk_compose)"
+  include "kog(mac_mods)"
+  include "kog(caps_control)"
+  include "kog(f13_print)"
+  include "kog(f14_compose)"
+  include "kog(f15_kana)"
 };

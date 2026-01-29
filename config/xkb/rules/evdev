@@ -3,27 +3,23 @@
   code = evdev+aliases(qwerty)
   mac = evdev+aliases(qwerty)
   launch = evdev+aliases(qwerty)
-  launch_lite = evdev+aliases(qwerty)
 
 ! layout = types
   usa = complete
   code = complete
   mac = complete
   launch = complete
-  launch_lite = complete
 
 ! layout = compat
   usa = complete
   code = complete
   mac = complete
   launch = complete
-  launch_lite = complete
 
 ! layout = symbols
-  usa = kog+us+inet(evdev)+kog(pc_mods)
+  usa = kog+us+inet(evdev)+kog(usa)
   code = kog+us+inet(evdev)+kog(code)
   mac = kog+us+inet(evdev)+kog(mac)
   launch = kog+us+inet(evdev)+kog(launch)
-  launch_lite = kog+us+inet(evdev)+kog(launch)+kog(escape_tilde)
 
 ! include %S/evdev
