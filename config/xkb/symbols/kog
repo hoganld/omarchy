@@ -2,7 +2,7 @@
 // which defines the keys that are common to all standard layouts.
 // We modify those symbols to maximize the modifiers available to
 // Emacs and Hyprland.
-default partial alphanumeric_keys modifier_keys
+partial alphanumeric_keys modifier_keys
 xkb_symbols "pc105" {
 
     key  <ESC> {[  Escape  ]};
@@ -102,6 +102,13 @@ xkb_symbols "pc105" {
     key <KITG> {[  XF86KbdLightOnOff  ]};
     key <KIDN> {[  XF86KbdBrightnessDown  ]};
     key <KIUP> {[  XF86KbdBrightnessUp  ]};
+};
+
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "base" {
+  include "kog(pc105)"
+  include "us"
+  include "inet(evdev)"
 };
 
 partial alphanumeric_keys
@@ -206,12 +213,14 @@ xkb_symbols "f_mods" {
 
 partial alphanumeric_keys modifier_keys
 xkb_symbols "usa" {
+  include "kog(base)"
   include "kog(pc_mods)"
   include "kog(caps_control)"
 };
 
 partial alphanumeric_keys modifier_keys
 xkb_symbols "mac" {
+  include "kog(base)"
   include "kog(mac_mods)"
   include "kog(caps_control)"
   include "kog(f10_compose)"
@@ -219,12 +228,14 @@ xkb_symbols "mac" {
 
 partial alphanumeric_keys modifier_keys
 xkb_symbols "launch" {
+  include "kog(base)"
   include "kog(f_mods)"
   include "kog(f14_compose)"
 };
 
 partial alphanumeric_keys modifier_keys
 xkb_symbols "code" {
+  include "kog(base)"
   include "kog(mac_mods)"
   include "kog(caps_control)"
   include "kog(f13_print)"

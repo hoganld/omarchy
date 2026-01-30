@@ -17,9 +17,9 @@
   launch = complete
 
 ! layout = symbols
-  usa = kog+us+inet(evdev)+kog(usa)
-  code = kog+us+inet(evdev)+kog(code)
-  mac = kog+us+inet(evdev)+kog(mac)
-  launch = kog+us+inet(evdev)+kog(launch)
+  usa = kog(usa)
+  code = kog(code)
+  mac = kog(mac)
+  launch = kog(launch)
 
 ! include %S/evdev
