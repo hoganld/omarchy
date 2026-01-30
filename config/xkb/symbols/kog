@@ -39,7 +39,7 @@ xkb_symbols "pc105" {
 
     key <MENU> {[  Menu  ]};
 
-    // To the standard modifiers we add Meta, Hyper and F18 ("Command")
+    // To the standard modifiers we add Meta, Hyper and F24 ("Command")
     modifier_map Shift   { Shift_L, Shift_R };
     modifier_map Lock    { Caps_Lock };
     modifier_map Control { Control_L, Control_R };
@@ -47,7 +47,7 @@ xkb_symbols "pc105" {
     modifier_map Mod2    { Meta_L, Meta_R };
     modifier_map Mod3    { Hyper_L, Hyper_R };
     modifier_map Mod4    { Super_L, Super_R };
-    modifier_map Mod5    { F18 };
+    modifier_map Mod5    { F24 };
 
 
     // Five fake keys for virtual<->real modifiers mapping:
@@ -63,7 +63,7 @@ xkb_symbols "pc105" {
     key <SUPR> {[  NoSymbol, Super_L  ]};
     modifier_map Mod4  { <SUPR> };
 
-    key <CMD> {[  NoSymbol, F18  ]};
+    key <CMD> {[  NoSymbol, F24  ]};
     modifier_map Mod5 { <CMD> };
 
     include "srvr_ctrl(fkey2vt)"
@@ -109,6 +109,7 @@ xkb_symbols "escape_tilde" {
   key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
 };
 
+// TODO FIXME Can I do this with Hyper + F10 => sendshortcut Multi_key ?
 partial alphanumeric_keys
 xkb_symbols "f10_compose" {
   key <FK10> {[ Multi_key ]};
@@ -130,13 +131,23 @@ xkb_symbols "f15_kana" {
 };
 
 partial modifier_keys
-xkb_symbols "f16_meta" {
+xkb_symbols "f16_lmeta" {
   key <FK16> {[ Meta_L ]};
 };
 
 partial modifier_keys
-xkb_symbols "f17_hyper" {
-  key <FK17> {[ Hyper_L ]};
+xkb_symbols "f17_rmeta" {
+  key <FK17> {[ Meta_R ]};
+};
+
+partial modifier_keys
+xkb_symbols "f18_lhyper" {
+  key <FK18> {[ Hyper_L ]};
+};
+
+partial modifier_keys
+xkb_symbols "f19_rhyper" {
+  key <FK19> {[ Hyper_R ]};
 };
 
 partial modifier_keys
@@ -160,7 +171,7 @@ xkb_symbols "lalt_hyper" {
 
 partial modifier_keys
 xkb_symbols "lctl_cmd" {
-  key <LCTL> {[ F18 ]};
+  key <LCTL> {[ F24 ]};
 };
 
 partial modifier_keys
@@ -187,8 +198,10 @@ xkb_symbols "mac_mods" {
 
 partial modifier_keys
 xkb_symbols "f_mods" {
-  include "kog(f16_meta)"
-  include "kog(f17_hyper)"
+  include "kog(f16_lmeta)"
+  include "kog(f17_rmeta)"
+  include "kog(f18_lhyper)"
+  include "kog(f19_rhyper)"
 };
 
 partial alphanumeric_keys modifier_keys
