@@ -32,7 +32,6 @@ xkb_symbols "evdev" {
 
 //  key <I120>   {      [ ]       }; // KEY_MACRO
     key <I126>   {      [ plusminus             ]       };
-    key <I128>   {      [ XF86LaunchA           ]       };
     key <I147>   {      [ XF86MenuKB            ]       };
     key <I148>   {      [ XF86Calculator        ]       };
 //  key <I149>   {      [ ]       }; // KEY_SETUP
@@ -112,7 +111,6 @@ xkb_symbols "evdev" {
    key <I170>   {       [ XF86Eject                      ]      }; // KEY_EJECTCLOSECD
    key <I189>   {       [ XF86New                        ]      }; // KEY_NEW
    key <I190>   {       [ Redo                           ]      }; // KEY_REDO
-   key <I212>   {       [ XF86LaunchB                    ]      }; // KEY_DASHBOARD
    key <I235>   {       [ XF86Display                    ]      }; // KEY_SWITCHVIDEOMODE
    key <I236>   {       [ XF86KbdLightOnOff              ]      }; // KEY_KBDILLUMTOGGLE
    key <I237>   {       [ XF86KbdBrightnessDown          ]      }; // KEY_KBDILLUMDOWN

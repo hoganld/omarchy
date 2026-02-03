@@ -117,6 +117,16 @@ xkb_symbols "escape_tilde" {
 };
 
 partial alphanumeric_keys
+xkb_symbols "I128_kana" {
+  key <I128> {[ Hiragana_Katakana ]};
+};
+
+partial alphanumeric_keys
+xkb_symbols "I212_compose" {
+  key <I212> {[ Multi_key ]};
+};
+
+partial alphanumeric_keys
 xkb_symbols "f13_print" {
   key <FK13> {[ Print ]};
 };
@@ -217,6 +227,8 @@ xkb_symbols "mac" {
   include "kog(base)"
   include "kog(mac_mods)"
   include "kog(caps_control)"
+  include "kog(I128_kana)"
+  include "kog(I212_compose)"
 };
 
 partial alphanumeric_keys modifier_keys
