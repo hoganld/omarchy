@@ -116,12 +116,6 @@ xkb_symbols "escape_tilde" {
   key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
 };
 
-// TODO FIXME Can I do this with Hyper + F10 => sendshortcut Multi_key ?
-partial alphanumeric_keys
-xkb_symbols "f10_compose" {
-  key <FK10> {[ Multi_key ]};
-};
-
 partial alphanumeric_keys
 xkb_symbols "f13_print" {
   key <FK13> {[ Print ]};
@@ -223,7 +217,6 @@ xkb_symbols "mac" {
   include "kog(base)"
   include "kog(mac_mods)"
   include "kog(caps_control)"
-  include "kog(f10_compose)"
 };
 
 partial alphanumeric_keys modifier_keys
