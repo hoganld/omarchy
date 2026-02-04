@@ -57,7 +57,7 @@
     "exec": "omarchy-language-monitor",
     "format": "{icon}",
     "format-icons": {
-      "en": "󰯬",
+      "en": "a",
       "jp": "󱌴",
     },
     "return-type": "json",
