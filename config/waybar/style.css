@@ -54,7 +54,7 @@
 }
 
 #custom-language {
-  margin-right: 17px;
+  margin-right: 18px;
 }
 
 #custom-expand-icon {
@@ -80,7 +80,7 @@ tooltip {
 #custom-screenrecording-indicator {
   min-width: 12px;
   margin-left: 5px;
-  font-size: 10px;
+  font-size: 15px;
   padding-bottom: 1px;
 }
 
