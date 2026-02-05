@@ -1,0 +1,38 @@
+#!/bin/bash
+
+MACUTILS="$HOME/.config/hypr/macutils.conf"
+
+create_macutils () {
+  tee "$MACUTILS" >/dev/null <<'EOF'
+# Compensate for missing Print key
+bindd = $HYPER, F1, Screenshot with editing, exec, omarchy-cmd-screenshot
+bindd = $HYPER SHIFT, F1, Screenshot to clipboard, exec, omarchy-cmd-screenshot smart clipboard
+bindd = $HYPER ALT, F1, Screenrecording, exec, omarchy-menu screenrecord
+bindd = $HYPER CTRL, F1, Color picker, exec, pkill hyprpicker || hyprpicker -a
+EOF
+}
+
+delete_macutils () {
+  rm "$MACUTILS" > /dev/null 2>&1
+}
+
+KBD=$(gum choose "usa" "launch" "mac" "code" --header "Select your keyboard")
+
+INPUT_CONF="$HOME/.config/hypr/input.conf"
+KEYS_CONF="$HOME/.config/hypr/keys.conf"
+
+sed -i "s/kb_layout[[:space:]]*=[[:space:]]*.*/kb_layout = $KBD/" "$INPUT_CONF"
+sed -i "s/kb_options[[:space:]]*=[[:space:]]*.*/kb_options =/" "$INPUT_CONF"
+
+if [[ "$KBD" == "mac" ]]; then
+  # Compensate for missing keys: Compose, Hiragana_Katakana, Print
+  create_macutils
+  MACSOURCE="source = ~/.config/hypr/macutils.conf"
+  if ! (grep -q "$MACSOURCE" "$KEYS_CONF"); then
+    echo "$MACSOURCE"  >> "$KEYS_CONF"
+  fi
+else
+  # Disable Mac keybindings if not a Mac
+  sed -i -e "s/^[[:space:]]*source[[:space:]]*=[[:space:]]*~\/\.config\/hypr\/macutils\.conf[[:space:]]*.*$//" "$KEYS_CONF"
+  delete_macutils
+fi
