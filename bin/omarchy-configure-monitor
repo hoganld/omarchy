@@ -1,21 +1,6 @@
 #!/bin/bash
 
 
-set_alacritty_font () {
-  sed -i -e "s/^size[[:space:]]*=[[:space:]]*.*$/size = $1/" $HOME/.config/alacritty/alacritty.toml
-}
-
-
-set_ghostty_font () {
-  sed -i -e "s/^font-size[[:space:]]*=[[:space:]]*.*$/font-size = $1/" $HOME/.config/ghostty/config
-}
-
-
-set_kitty_font () {
-  sed -i -e "s/^font_size[[:space:]]*.*$/font_size $1/" $HOME/.config/kitty/kitty.conf
-}
-
-
 comment_out_scale () {
   sed -i -e "/^[[:space:]]*env[[:space:]]*=[[:space:]]*GDK_SCALE[[:space:]]*,[[:space:]]*$1[[:space:]]*$/s/^/# /" $MONITOR_CONF
   sed -i -e "/^[[:space:]]*monitor[[:space:]]*=[[:space:]]*,[[:space:]]*preferred[[:space:]]*,[[:space:]]*auto[[:space:]]*,[[:space:]]*$2[[:space:]]*$/s/^/# /" $MONITOR_CONF
@@ -62,10 +47,6 @@ if [[ "$MONITOR_SCALE" == "$STANDARD_RES" ]]; then
   comment_out_scale "2" "auto"
   uncomment_scale "1" "1"
 
-  set_alacritty_font "12"
-  set_ghostty_font "12"
-  set_kitty_font "12.0"
-
   clear_hidpi_xresources
 
 elif [[ "$MONITOR_SCALE" == "$HIDPI_RES" ]]; then
@@ -73,10 +54,6 @@ elif [[ "$MONITOR_SCALE" == "$HIDPI_RES" ]]; then
 
   comment_out_scale "1" "1"
   uncomment_scale "2" "auto"
-
-  set_alacritty_font "9"
-  set_ghostty_font "9"
-  set_kitty_font "9.0"
 
   set_hidpi_xresources
 
