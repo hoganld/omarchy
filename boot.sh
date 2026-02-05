@@ -17,6 +17,9 @@ ansi_art='                 ▄▄▄
 clear
 echo -e "\n$ansi_art\n"
 
+# For some reason I always need to run this command before I can get all the packages needed
+sudo pacman -Syy
+
 sudo pacman -Syu --noconfirm --needed git
 
 # Use custom repo if specified, otherwise default to basecamp/omarchy
