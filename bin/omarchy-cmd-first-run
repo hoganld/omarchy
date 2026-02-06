@@ -20,5 +20,6 @@ if [[ -f "$FIRST_RUN_MODE" ]]; then
   bash "$OMARCHY_PATH/install/first-run/welcome.sh"
   bash "$OMARCHY_PATH/install/first-run/wifi.sh"
   bash "$OMARCHY_PATH/install/first-run/op-ssh-agent.sh"
+  bash "$OMARCHY_PATH/install/first-run/tte.sh"
   bash "$OMARCHY_PATH/install/first-run/peripherals.sh"
 fi

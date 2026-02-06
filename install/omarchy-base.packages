@@ -99,7 +99,7 @@ postgresql-libs
 power-profiles-daemon
 python-gobject
 python-poetry-core
-python-terminaltexteffects
+# python-terminaltexteffects
 python-uv
 python-uv-build
 qt5-wayland
