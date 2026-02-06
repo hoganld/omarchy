@@ -1,0 +1,29 @@
+* The missing package problem
+  Sometimes when trying to install, either manually or when trying to create an ISO via `omarchy-iso-make`,
+  the installer will quit because it cannot find a package in the base packages list. This has bitten me on
+  several occasions.
+
+  I do not yet know if it is because of a mirror sync issue, or if it is related to the fact that Omarchy's
+  stable mirror intentionally lags behind by about a month.
+
+  I was trying to install a custom version of Omarchy 3.3.3 on Feb 5, 2026, and the installer failed to find
+  the `opencode` package. This continued all day, no matter how many times I ran `pacman -Syy`. By dinnertime
+  I was at the end of my wits, so I asked Grok what the issue could be. Grok initially gave me the same lame
+  advice that had not been working all day, but when I pushed back, he suggested that there could be times
+  when a *released version of Omarchy* depends on packages not yet available in the stable repo. Grok claimed
+  that the Omarchy team uses some custom magic to get packages into the ISO that are not available (yet) in
+  the stable mirror. He suggested switching to `edge` temporarily.
+
+  See the screenshots in the directory `grok_talks_about_missing_packages` for the full conversation with Grok.
+
+  I don't know if this theory has any basis in reality: is it the true reason for my installer failures, or
+  is it an AI hallucination? I cannot yet claim it implausible: Omarchy 3.3.3 was released on 1/7/26, and my
+  woes were on 2/5/26.
+
+  The next day, 2/6/26, I was going to test the theory and try to build from edge. But before I could test it,
+  I discovered that pacman could suddenly find `opencode` again. The problem went away on its own. So I still
+  do not know if it was a temporary glitch/timing issue in the mirror network or with the Omarchy mirror itself,
+  or if the package became available in the stable mirror because Feb 6 is 30 days after Jan 7.
+
+  I guess I will get to resume my investigation next time this bites me. Cannot wait.
+
