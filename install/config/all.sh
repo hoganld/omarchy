@@ -1,5 +1,6 @@
 run_logged $OMARCHY_INSTALL/config/config.sh
 run_logged $OMARCHY_INSTALL/config/ssh.sh
+run_logged $OMARCHY_INSTALL/config/localbin.sh
 run_logged $OMARCHY_INSTALL/config/link-fcitx5-themes.sh
 run_logged $OMARCHY_INSTALL/config/theme.sh
 run_logged $OMARCHY_INSTALL/config/branding.sh
