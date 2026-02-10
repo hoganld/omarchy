@@ -22,4 +22,7 @@
   mac = kog(mac)
   launch = kog(launch)
 
+! layout   option		= symbols
+  *	   kog:escape_tilde	= +kog(escape_tilde)
+
 ! include %S/evdev
