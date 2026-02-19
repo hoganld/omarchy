@@ -1,8 +1,9 @@
 # Changes require a restart to take effect.
 
-# Ensure Omarchy bins are in the path
+# Ensure Omarchy bins and local bins are in the path
 export OMARCHY_PATH=$HOME/.local/share/omarchy
-export PATH=$OMARCHY_PATH/bin:$PATH
+export LOCAL_PATH=$HOME/.local
+export PATH=$LOCAL_PATH/bin:$OMARCHY_PATH/bin:$PATH
 
 # Set default terminal and editor
 source ~/.config/uwsm/default
