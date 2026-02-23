@@ -176,6 +176,11 @@ xkb_symbols "lalt_meta" {
 };
 
 partial modifier_keys
+xkb_symbols "lalt_super" {
+  key <LALT> {[ Super_L ]};
+};
+
+partial modifier_keys
 xkb_symbols "lalt_hyper" {
   key <LALT> {[ Hyper_L ]};
 };
@@ -196,15 +201,22 @@ xkb_symbols "lwin_meta" {
 };
 
 partial modifier_keys
+xkb_symbols "rwin_hyper" {
+  key <LALT> {[ Hyper_L ]};
+};
+
+partial modifier_keys
 xkb_symbols "pc_mods" {
   include "kog(lalt_meta)"
-  include "kog(lctl_hyper)"
+  include "kog(lctl_cmd)"
 };
 
 partial modifier_keys
 xkb_symbols "mac_mods" {
-  include "kog(lctl_hyper)"
+  include "kog(lctl_cmd)"
   include "kog(lwin_meta)"
+  include "kog(lalt_super)"
+  include "kog(rwin_hyper)"
 };
 
 partial modifier_keys

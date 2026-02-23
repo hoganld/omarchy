@@ -5,10 +5,10 @@ MACUTILS="$HOME/.config/hypr/macutils.conf"
 create_macutils () {
   tee "$MACUTILS" >/dev/null <<'EOF'
 # Compensate for missing Print key
-bindd = $HYPER, F1, Screenshot with editing, exec, omarchy-cmd-screenshot
-bindd = $HYPER SHIFT, F1, Screenshot to clipboard, exec, omarchy-cmd-screenshot smart clipboard
-bindd = $HYPER ALT, F1, Screenrecording, exec, omarchy-menu screenrecord
-bindd = $HYPER CTRL, F1, Color picker, exec, pkill hyprpicker || hyprpicker -a
+bindd = $CMD, F1, Screenshot with editing, exec, omarchy-cmd-screenshot
+bindd = $CMD SHIFT, F1, Screenshot to clipboard, exec, omarchy-cmd-screenshot smart clipboard
+bindd = $CMD ALT, F1, Screenrecording, exec, omarchy-menu screenrecord
+bindd = $CMD CTRL, F1, Color picker, exec, pkill hyprpicker || hyprpicker -a
 EOF
 }
 
