@@ -28,14 +28,14 @@ xkb_symbols "pc105" {
     key <RWIN> {[  Super_R    ]};
 
     // Bind the unbound F keys
-    key <FK13> {[  F13   ]};
-    key <FK14> {[  F14   ]};
-    key <FK15> {[  F15   ]};
-    key <FK16> {[  F16   ]};
-    key <FK17> {[  F17   ]};
-    key <FK18> {[  F18   ]};
-    key <FK19> {[  F19   ]};
-    key <FK24> {[  F24   ]};
+    key <FK13> {[ Multi_key ]};
+    key <FK14> {[ Meta_L    ]};
+    key <FK15> {[ Meta_R    ]};
+    key <FK16> {[ Hyper_L   ]};
+    key <FK17> {[ Hyper_R   ]};
+    key <FK18> {[  F18      ]};
+    key <FK19> {[  F19      ]};
+    key <FK24> {[  F24      ]};
 
     key <MENU> {[  Menu  ]};
 
@@ -109,153 +109,4 @@ xkb_symbols "base" {
   include "kog(pc105)"
   include "us"
   include "inet(evdev)"
-};
-
-partial alphanumeric_keys
-xkb_symbols "escape_tilde" {
-  key <ESC> { type[Group1]="TWO_LEVEL", [ Escape, asciitilde ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "I128_kana" {
-  key <I128> {[ Hiragana_Katakana ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "I212_compose" {
-  key <I212> {[ Multi_key ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "f13_print" {
-  key <FK13> {[ Print ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "f14_compose" {
-  key <FK14> {[ Multi_key ]};
-};
-
-partial alphanumeric_keys
-xkb_symbols "f15_kana" {
-  key <FK15> {[ Hiragana_Katakana ]};
-};
-
-partial modifier_keys
-xkb_symbols "f16_lmeta" {
-  key <FK16> {[ Meta_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "f17_rmeta" {
-  key <FK17> {[ Meta_R ]};
-};
-
-partial modifier_keys
-xkb_symbols "f18_lhyper" {
-  key <FK18> {[ Hyper_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "f19_rhyper" {
-  key <FK19> {[ Hyper_R ]};
-};
-
-partial modifier_keys
-xkb_symbols "caps_control" {
-  replace key <CAPS> {
-    type[Group1] = "ONE_LEVEL",
-    symbols[Group1] = [ Control_L ],
-    actions[Group1] = [ SetMods(modifiers=Control) ]
-  };
-};
-
-partial modifier_keys
-xkb_symbols "lalt_meta" {
-  key <LALT> {[ Meta_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "lalt_super" {
-  key <LALT> {[ Super_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "lalt_hyper" {
-  key <LALT> {[ Hyper_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "lctl_cmd" {
-  key <LCTL> {[ F24 ]};
-};
-
-partial modifier_keys
-xkb_symbols "lctl_hyper" {
-  key <LCTL> {[ Hyper_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "lwin_meta" {
-  key <LWIN> {[ Meta_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "rwin_hyper" {
-  key <LALT> {[ Hyper_L ]};
-};
-
-partial modifier_keys
-xkb_symbols "pc_mods" {
-  include "kog(lalt_meta)"
-  include "kog(lctl_cmd)"
-};
-
-partial modifier_keys
-xkb_symbols "mac_mods" {
-  include "kog(lctl_cmd)"
-  include "kog(lwin_meta)"
-  include "kog(lalt_super)"
-  include "kog(rwin_hyper)"
-};
-
-partial modifier_keys
-xkb_symbols "f_mods" {
-  include "kog(f16_lmeta)"
-  include "kog(f17_rmeta)"
-  include "kog(f18_lhyper)"
-  include "kog(f19_rhyper)"
-};
-
-partial alphanumeric_keys modifier_keys
-xkb_symbols "usa" {
-  include "kog(base)"
-  include "kog(pc_mods)"
-  include "kog(caps_control)"
-};
-
-partial alphanumeric_keys modifier_keys
-xkb_symbols "mac" {
-  include "kog(base)"
-  include "kog(mac_mods)"
-  include "kog(caps_control)"
-  include "kog(I128_kana)"
-  include "kog(I212_compose)"
-};
-
-partial alphanumeric_keys modifier_keys
-xkb_symbols "launch" {
-  include "kog(base)"
-  include "kog(f_mods)"
-  include "kog(f14_compose)"
-};
-
-partial alphanumeric_keys modifier_keys
-xkb_symbols "code" {
-  include "kog(base)"
-  include "kog(mac_mods)"
-  include "kog(caps_control)"
-  include "kog(f13_print)"
-  include "kog(f14_compose)"
-  include "kog(f15_kana)"
 };
