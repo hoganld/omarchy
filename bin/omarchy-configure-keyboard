@@ -1,51 +1,124 @@
 #!/bin/bash
 
-modify_template () {
-  nvim "$1"
-  validate_template "$1"
+TMP_DIR=/tmp/keyd
+KEYD_DIR=/etc/keyd
+DEFAULT_CONFIG_DIR=$OMARCHY_PATH/default/keyd
+TEMPLATE_DIR=$OMARCHY_PATH/default/keyd/templates
+
+
+parse_id() {
+  awk '/I: Bus=/ { gsub("Vendor=", ""); gsub("Product=", ":"); print $3 $4 }' $1
 }
 
-validate_template() {
-  errors=$(keyd check $1)
+
+parse_name() {
+  awk -F "\"" '/Name=/ { print $2 }' $1
+}
+
+
+select_device() {
+  rm -rf "$TMP_DIR/devices"
+  mkdir -p "$TMP_DIR/devices"
+  cd "$TMP_DIR/devices" >/dev/null 2>&1
+
+  csplit -s /proc/bus/input/devices '/^$/' {*} -f kbd
+  readarray -t keyboards < <(for fn in $(grep -w -l kbd *); do parse_name $fn; done)
+  local selected=$(gum choose --header="Choose your keyboard" "${keyboards[@]}")
+  local containing_file=$(grep -w -l "\"$selected\"" *)
+  local id=$(parse_id "$containing_file")
+
+  cd "$TMP_DIR" >/dev/null 2>&1
+  echo $id
+}
+
+
+noncolliding_name() {
+  local fn="$(hostname).conf"
+  local i=0
+  while [[ -f "$KEYD_DIR/$fn" ]]; do
+    ((i++))
+    fn="$(hostname)-$i.conf"
+  done
+  echo "$fn"
+}
+
+
+get_or_create_config() {
+  local matching_config="$(grep -w -l "$1" $KEYD_DIR/*)"
+
+  if [[ -z $matching_config ]]; then
+    local templates=$(for fn in $OMARCHY_PATH/default/keyd/templates/*;do basename $fn; done)
+    local template_name="$(gum choose --header "Which keyboard is most similar to yours?" $templates)"
+    local template="$TMP_DIR/$(noncolliding_name)"
+    sed -e "s/^xxxx:yyyy$/${1}/" "$TEMPLATE_DIR/$template_name" > $template
+    echo $template
+  else
+    cp "$matching_config" "$TMP_DIR"
+    echo "$TMP_DIR/$(basename $matching_config)"
+  fi
+}
+
+
+edit_config() {
+  nvim "$1"
+  validate_config "$1"
+  sed -i -e '/^#.*$/d' "$1"
+  sudo cp "$1" "$KEYD_DIR/$(basename $1)"
+}
+
+
+validate_config() {
+  errors=$(keyd check "$1")
   if [[ $? -ne 0 ]]; then
     echo "=== Keyboard config errors ==="
     echo "$errors"
-    gum confirm "Try again?" || abort_configuration $1
-    modify_template "$1"
+    gum confirm "Try again?" || abort $1
+    edit_config "$1"
   else
     return 0
   fi
 }
 
-abort_configuration() {
-  rm $1
-  sudo systemctl start keyd
+setup() {
+  stop_keyd
+  mkdir -p "$TMP_DIR"
+  cd "$TMP_DIR" >/dev/null 2>&1
+}
+
+cleanup() {
+  cd >/dev/null 2>&1
+  rm -rf "$TMP_DIR"
+  restart_keyd
+}
+
+abort() {
+  rm "$1"
+  restart_keyd
   echo "Keyboard configuration aborted."
   exit 1
 }
 
+
+stop_keyd() {
+  sudo systemctl stop keyd
+}
+
+
+restart_keyd() {
+  sudo systemctl start keyd
+}
+
+
 gum confirm "Do you want to configure your keyboard now?" || exit 0
 
-sudo systemctl stop keyd
+setup
 
-TEMPLATES=$(for fn in $OMARCHY_PATH/default/keyd/templates/*;do basename $fn; done)
+kbd_id=$(select_device)
 
-TEMPLATE_NAME="$(gum choose --header "Which keyboard is most similar to yours?" $TEMPLATES)"
+template=$(get_or_create_config $kbd_id)
 
-TEMPLATE="/tmp/$TEMPLATE_NAME"
+edit_config $template
 
-cp "$OMARCHY_PATH/default/keyd/templates/$TEMPLATE_NAME" $TEMPLATE
+cleanup
 
-modify_template $TEMPLATE
-
-sed -i -e "/^#.*$/s/^[[:space:]]*#.*$//" $TEMPLATE
-sed -i -r '/^\s*$/d' $TEMPLATE
-
-CONFIGFILE="/etc/keyd/$(hostname).conf"
-
-sudo mv $TEMPLATE $CONFIGFILE
-
-sudo systemctl start keyd
-
-echo "Keyboard configuration complete."
-echo "The new config file for this keyboard is located at $CONFIGFILE"
+echo "Keyboard configured successfully."

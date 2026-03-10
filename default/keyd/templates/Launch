@@ -1,7 +1,5 @@
-# Use `keyd monitor` to discover device IDs and keycodes
 [ids]
-# !!! Set the ID or nothing will happen !!!
-3384:yyyy
+xxxx:yyyy
 
 include common.conf
 
@@ -14,3 +12,5 @@ include common.conf
 
 # [shift]
 # esc = ~
+# katakanahiragana = capslock
+# f13 = capslock

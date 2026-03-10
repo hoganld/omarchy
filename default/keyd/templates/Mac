@@ -1,6 +1,4 @@
-# Use `keyd monitor` to discover device IDs and keycodes
 [ids]
-# !!! Set the ID or nothing will happen !!!
 xxxx:yyyy
 
 include common.conf

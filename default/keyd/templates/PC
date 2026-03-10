@@ -1,16 +1,14 @@
-# Use `keyd monitor` to discover device IDs and keycodes
 [ids]
-# !!! Set the ID or nothing will happen !!!
 xxxx:yyyy
 
 include common.conf
 
-[main]
 # Important key mappings
 # f13     => Compose
 # f14/f15 => L/R Meta
 # f16/f17 => L/R Hyper
 # f24     => Command
+[main]
 capslock = layer(control)
 rightmeta = layer(alt)
 leftalt = f14
@@ -18,4 +16,3 @@ rightalt = f17
 leftcontrol = f24
 # ?? = f13
 # ?? = katakanahiragana
-fs
