@@ -1,0 +1,16 @@
+# Use `keyd monitor` to discover device IDs and keycodes
+[ids]
+# !!! Set the ID or nothing will happen !!!
+3384:yyyy
+
+include common.conf
+
+# [main]
+# Set import key mappings in QMK:
+# f13     => Compose
+# f14/f15 => L/R Meta
+# f16/f17 => L/R Hyper
+# f24     => Command
+
+# [shift]
+# esc = ~

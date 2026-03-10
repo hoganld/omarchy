@@ -1,0 +1,51 @@
+#!/bin/bash
+
+modify_template () {
+  nvim "$1"
+  validate_template "$1"
+}
+
+validate_template() {
+  errors=$(keyd check $1)
+  if [[ $? -ne 0 ]]; then
+    echo "=== Keyboard config errors ==="
+    echo "$errors"
+    gum confirm "Try again?" || abort_configuration $1
+    modify_template "$1"
+  else
+    return 0
+  fi
+}
+
+abort_configuration() {
+  rm $1
+  sudo systemctl start keyd
+  echo "Keyboard configuration aborted."
+  exit 1
+}
+
+gum confirm "Do you want to configure your keyboard now?" || exit 0
+
+sudo systemctl stop keyd
+
+TEMPLATES=$(for fn in $OMARCHY_PATH/default/keyd/templates/*;do basename $fn; done)
+
+TEMPLATE_NAME="$(gum choose --header "Which keyboard is most similar to yours?" $TEMPLATES)"
+
+TEMPLATE="/tmp/$TEMPLATE_NAME"
+
+cp "$OMARCHY_PATH/default/keyd/templates/$TEMPLATE_NAME" $TEMPLATE
+
+modify_template $TEMPLATE
+
+sed -i -e "/^#.*$/s/^[[:space:]]*#.*$//" $TEMPLATE
+sed -i -r '/^\s*$/d' $TEMPLATE
+
+CONFIGFILE="/etc/keyd/$(hostname).conf"
+
+sudo mv $TEMPLATE $CONFIGFILE
+
+sudo systemctl start keyd
+
+echo "Keyboard configuration complete."
+echo "The new config file for this keyboard is located at $CONFIGFILE"
