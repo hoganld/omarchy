@@ -4,6 +4,10 @@ dir_is_not_empty() {
   [[ -d "$1" && $(ls -A "$1") ]]
 }
 
+current_monitor() {
+  hyprctl monitors -j | jq -r '.[] | select(.focused = true).name'
+}
+
 external_monitor_brightness() {
   local brightness=$(ddcutil getvcp 10 | awk '{ gsub(",", ""); print $9 }')
   if [[ "$1" == "raise" ]]; then
@@ -19,12 +23,11 @@ external_monitor_brightness() {
   if [[ $brightness = 100 ]]; then
     progress="1.0"
   fi
-  swayosd-client --custom-icon "display-brightness" --custom-progress $progress
+  swayosd-client --monitor $(current_monitor) --custom-icon "display-brightness" --custom-progress $progress
   ddcutil setvcp 10 $brightness > /dev/null 2>&1
 }
 
 laptop_monitor_brightness() {
-  local current_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).name')
   swayosd-client --monitor $(current_monitor) --brightness "$1"
 }
 
