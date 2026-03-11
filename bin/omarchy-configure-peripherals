@@ -1,4 +1,25 @@
 #!/bin/bash
 
-$OMARCHY_PATH/bin/omarchy-configure-keyboard
 $OMARCHY_PATH/bin/omarchy-configure-monitor
+$OMARCHY_PATH/bin/omarchy-configure-keyboard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
