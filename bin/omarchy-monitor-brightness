@@ -1,0 +1,44 @@
+#!/bin/bash
+
+dir_is_not_empty() {
+  [[ -d "$1" && $(ls -A "$1") ]]
+}
+
+external_monitor_brightness() {
+  local brightness=$(ddcutil getvcp 10 | awk '{ gsub(",", ""); print $9 }')
+  if [[ "$1" == "raise" ]]; then
+    brightness=$(($brightness + 10))
+    brightness=$(($brightness > 100 ? 100 : $brightness))
+  elif [[ "$1" == "lower" ]]; then
+    brightness=$(($brightness - 10))
+    brightness=$(($brightness < 0 ? 0 : $brightness))
+  else
+    brightness=50
+  fi
+  local progress="0.$brightness"
+  if [[ $brightness = 100 ]]; then
+    progress="1.0"
+  fi
+  swayosd-client --custom-icon "display-brightness" --custom-progress $progress
+  ddcutil setvcp 10 $brightness > /dev/null 2>&1
+}
+
+laptop_monitor_brightness() {
+  local current_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).name')
+  swayosd-client --monitor $(current_monitor) --brightness "$1"
+}
+
+BACKLIGHT=/sys/class/backlight
+INTEL_BACKLIGHT=/sys/class/intel_backlight
+  
+LAPTOP=false
+
+if dir_is_not_empty "$BACKLIGHT" || dir_is_not_empty "$INTEL_BACKLIGHT"; then
+  LAPTOP=true
+fi
+
+if $LAPTOP; then
+  laptop_monitor_brightness "$1"
+else
+  external_monitor_brightness "$1"
+fi
