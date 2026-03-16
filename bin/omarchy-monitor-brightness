@@ -32,11 +32,10 @@ laptop_monitor_brightness() {
 }
 
 BACKLIGHT=/sys/class/backlight
-INTEL_BACKLIGHT=/sys/class/intel_backlight
   
 LAPTOP=false
 
-if dir_is_not_empty "$BACKLIGHT" || dir_is_not_empty "$INTEL_BACKLIGHT"; then
+if dir_is_not_empty "$BACKLIGHT"; then
   LAPTOP=true
 fi
 
