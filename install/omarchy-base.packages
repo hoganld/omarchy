@@ -5,6 +5,7 @@
 1password-cli
 aether
 alacritty
+alsa-utils
 asdcontrol
 avahi
 bash-completion
@@ -13,7 +14,9 @@ bluetui
 bolt
 brightnessctl
 btop
+chromium
 clang
+claude-code
 cups
 cups-browsed
 cups-filters
@@ -38,7 +41,6 @@ fd
 ffmpegthumbnailer
 fontconfig
 fzf
-ghostty
 github-cli
 gnome-keyring
 gnome-themes-extra
@@ -63,6 +65,7 @@ inxi
 iwd
 jq
 keyd
+kernel-modules-hook
 kvantum-qt5
 lazydocker
 lazygit
@@ -74,20 +77,20 @@ libreoffice-fresh
 llvm
 localsend
 luarocks
+makima-bin
 mako
 man-db
 mariadb-libs
 mise
 mpv
 nautilus
+nautilus-python
 gnome-disk-utility
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
-noto-fonts-extra
 nss-mdns
 nvim
-omarchy-chromium
 omarchy-nvim
 omarchy-walker
 opencode
@@ -118,8 +121,8 @@ swayosd
 system-config-printer
 tldr
 tree-sitter-cli
+tmux
 tobi-try
-ttf-cascadia-mono-nerd
 ttf-ia-writer
 ttf-jetbrains-mono-nerd
 tzupdate
@@ -129,7 +132,6 @@ unzip
 usage
 uwsm
 waybar
-wayfreeze
 whois
 wireless-regdb
 wiremix

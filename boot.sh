@@ -22,6 +22,9 @@ OMARCHY_REF="${OMARCHY_REF:-master}"
 
 # Set edge mirror
 export OMARCHY_MIRROR=edge
+echo 'Server = https://mirror.omarchy.org/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist >/dev/null
+
+sudo pacman -Syu --noconfirm --needed git
 
 # Use custom repo if specified, otherwise default to basecamp/omarchy
 OMARCHY_REPO="${OMARCHY_REPO:-hoganld/omarchy}"
