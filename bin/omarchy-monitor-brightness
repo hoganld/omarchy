@@ -1,46 +1,74 @@
 #!/bin/bash
 
-dir_is_not_empty() {
-  [[ -d "$1" && $(ls -A "$1") ]]
+is_external_display() {
+  display=$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).name')
+  laptop_prefixes=("eDP", "LVDS")
+  for prefix in "${laptop_prefixes[@]}"; do
+    if [[ $display == "$prefix"* ]]; then
+      return 1
+    fi
+  done
+  return 0
 }
 
-current_monitor() {
-  hyprctl monitors -j | jq -r '.[] | select(.focused = true).name'
-}
-
-external_monitor_brightness() {
-  local brightness=$(ddcutil getvcp 10 | awk '{ gsub(",", ""); print $9 }')
-  if [[ "$1" == "raise" ]]; then
-    brightness=$(($brightness + 10))
-    brightness=$(($brightness > 100 ? 100 : $brightness))
-  elif [[ "$1" == "lower" ]]; then
-    brightness=$(($brightness - 10))
-    brightness=$(($brightness < 0 ? 0 : $brightness))
-  else
-    brightness=50
+set_external_display_brightness() {
+  # Get the current external display ID.
+  local working_dir=/tmp/identify_monitors
+  rm -rf "$working_dir" > /dev/null 2>&1
+  mkdir -p "$working_dir" > /dev/null 2>&1
+  cd "$working_dir" > /dev/null 2>&1
+  local id=1
+  hyprctl monitors | csplit -sz --suppress-matched - '/^$/' {*} -f hypr
+  if [[ $(ls -1 hypr* | wc -l) > 1 ]]; then
+    ddcutil detect | csplit -sz --suppress-matched - '/^$/' {*} -f ddc
+    local serial=$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).serial')
+    id=$(head -n 1 "$(grep -il "$serial" ddc*)" | awk '{ print $2 }')
   fi
-  local progress="0.$brightness"
-  if [[ $brightness = 100 ]]; then
-    progress="1.0"
+  cd - > /dev/null 2>&1
+  rm -rf "$working_dir" > /dev/null 2>&1
+
+  # Set the direction and degree of change.
+  local mode=""
+  if [[ "$1" == "+"* ]]; then
+    mode="+"
+  elif [[ "$1" == *"-" ]]; then
+    mode="-"
   fi
-  swayosd-client --monitor $(current_monitor) --custom-icon "display-brightness" --custom-progress $progress
-  ddcutil setvcp 10 $brightness > /dev/null 2>&1
+  local brightness=$(echo "$1" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
+    
+  # Set the actual brightness of the external display device.
+  ddcutil --display "$id" setvcp 10 $mode "$brightness"
+
+  # Use SwayOSD to display the new brightness setting.
+  omarchy-swayosd-brightness "$(ddcutil --display $id getvcp 10 | awk '{ gsub(",", ""); print $9 }')"
 }
 
-laptop_monitor_brightness() {
-  swayosd-client --monitor $(current_monitor) --brightness "$1"
+set_laptop_display_brightness() {
+  # Start with the first possible output, then refine to the most likely given an order heuristic.
+  local device="$(ls -1 /sys/class/backlight 2>/dev/null | head -n1)"
+  for candidate in amdgpu_bl* intel_backlight acpi_video*; do
+    if [[ -e /sys/class/backlight/$candidate ]]; then
+      device="$candidate"
+      break
+    fi
+  done
+
+  # Set the actual brightness of the display device.
+  brightnessctl -d "$device" set "$1" >/dev/null
+
+  # Use SwayOSD to display the new brightness setting.
+  omarchy-swayosd-brightness "$(brightnessctl -d "$device" -m | cut -d',' -f4 | tr -d '%')"
 }
 
-BACKLIGHT=/sys/class/backlight
-  
-LAPTOP=false
+step="${1:-+5%}"
 
-if dir_is_not_empty "$BACKLIGHT"; then
-  LAPTOP=true
+if [[ "$step" == "+"*"-" ]]; then
+  echo "Error: decide if you want to increase or decrease the display brightness and try again."
+  exit 1
 fi
 
-if $LAPTOP; then
-  laptop_monitor_brightness "$1"
+if is_external_display; then
+  set_external_display_brightness "$step"
 else
-  external_monitor_brightness "$1"
+  set_laptop_display_brightness "$step"
 fi
