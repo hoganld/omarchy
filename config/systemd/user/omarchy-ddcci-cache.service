@@ -1,0 +1,9 @@
+[Unit]
+Description=Omarchy DDC/CI Cache
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+# FIXME: update the path below
+ExecStart=%h/Work/omarchy/bin/omarchy-ddcci-cache
+LogLevelMax=warning
