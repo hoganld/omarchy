@@ -1,5 +1,10 @@
 #!/bin/bash
 
+find_cache_file() {
+  local serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).serial')"
+  grep -il "$serial" "$HOME"/.local/state/ddcci/* 2> /dev/null
+}
+
 input="${1:-+5%}"
 
 if [[ "$input" == "+"*"-" ]]; then
@@ -7,10 +12,20 @@ if [[ "$input" == "+"*"-" ]]; then
   exit 1
 fi
 
+cache_file="$(find_cache_file)"
+# If no cache file is found, update the cache and try again
+if [[ -z "$cache_file" ]]; then
+  $OMARCHY_PATH/bin/omarchy-ddcci-cache
+  cache_file="$(find_cache_file)"
+fi
+
+# If we still find no cache file, quit
+if [[ -z "$cache_file" ]]; then
+  echo "Error: Cannot control this display with ddcutil."
+  exit 1
+fi
+
 # Pull the cached bus ID and brightness for the current monitor.
-cache_dir="$HOME/.local/state/ddcci"
-serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).serial')"
-cache_file="$(grep -il "$serial" "$cache_dir"/*)"
 bus="$(awk -F ":" '/I2C bus/ { gsub("/dev/i2c-", ""); print $2}' "$cache_file")"
 old_brightness="$(awk -F ":" '/Brightness/ { print $2 }' "$cache_file")"
 
