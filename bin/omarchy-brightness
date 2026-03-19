@@ -1,0 +1,18 @@
+#!/bin/bash
+
+current_display_is_external() {
+  display=$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).name')
+  laptop_prefixes=("eDP", "LVDS")
+  for prefix in "${laptop_prefixes[@]}"; do
+    if [[ $display == "$prefix"* ]]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
+if current_display_is_external; then
+  omarchy-brightness-display-external "$1"
+else
+  omarchy-brightness-display "$1"
+fi

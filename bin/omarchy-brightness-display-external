@@ -1,0 +1,37 @@
+#!/bin/bash
+
+input="${1:-+5%}"
+
+if [[ "$input" == "+"*"-" ]]; then
+  echo "Error: decide if you want to increase or decrease the display brightness and try again."
+  exit 1
+fi
+
+# Pull the cached bus ID and brightness for the current monitor.
+cache_dir="$HOME/.local/state/ddcci"
+serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).serial')"
+cache_file="$(grep -il "$serial" "$cache_dir"/*)"
+bus="$(awk -F ":" '/I2C bus/ { gsub("/dev/i2c-", ""); print $2}' "$cache_file")"
+old_brightness="$(awk -F ":" '/Brightness/ { print $2 }' "$cache_file")"
+
+# Set the direction and degree of change.
+step=$(echo "$input" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
+if [[ "$input" == "+"* ]]; then
+  new_brightness=$(($old_brightness + $step))
+elif [[ "$input" == *"-" ]]; then
+  new_brightness=$(($old_brightness - $step))
+else
+  new_brightness=$step
+fi
+new_brightness=$(($new_brightness < 0 ? 0 : $new_brightness))
+new_brightness=$(($new_brightness > 100 ? 100 : $new_brightness))
+
+# Set the actual brightness of the external display device.
+ddcutil --bus "$bus" setvcp 10 "$new_brightness"
+
+# Use SwayOSD to display the new brightness setting.
+omarchy-swayosd-brightness "$new_brightness"
+
+# Update the cache directly (calling omarchy-ddcci-cache would be too slow)
+sed -i "s/^Brightness.*$/Brightness: $new_brightness/" "$cache_file"
+sed -i "s/^Cached at.*$/Cached at: $(date)/" "$cache_file"
