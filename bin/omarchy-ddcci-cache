@@ -1,31 +1,38 @@
 #!/bin/bash
 
-# Use `ddcutil detect` to get display ID, i2c bus ID, serial number, manufacturer, model, connection for every device
-# For every device detected, use `ddcutil getvcp 10` to get the current brightness value
-# Record the current unix timestamp
-# Write the values to individual files, one per device, in /tmp/ddcci
-# Clear the cache dir (~/.local/state/ddcci)
-# Move the new cache files from /tmp/ddcci to ~/.local/state/ddcci
-
 working_dir=/tmp/ddcci
-cache_dir=$HOME/.local/state/ddcci
+cache_dir="$HOME/.local/state/ddcci"
 
+# setup
 rm -rf "$working_dir" > /dev/null 2>&1
 mkdir -p "$working_dir" > /dev/null 2>&1
 cd "$working_dir" > /dev/null 2>&1
 
+# detect displays
 ddcutil detect | csplit -sz --suppress-matched - '/^$/' {*} -f display
 
-for fn in "display"*; do
-  bus=$(cat "$fn" | awk -F ":" '/I2C bus/ { gsub("/dev/i2c-", ""); print $2 }')
-  brightness=$(ddcutil --bus $bus getvcp 10 | awk '{ gsub(",", ""); print $9 }')
+# ddcutil will report laptop displays even though they are unsupported
+for laptop in $(grep -il "This is a laptop display" "$working_dir"/*); do
+  rm "$laptop"
+done
+
+# Add current brightness and timestamp to each cache file
+for fn in $(ls -1 display* 2> /dev/null); do
+  bus="$(cat "$fn" | awk -F ":" '/I2C bus/ { gsub("/dev/i2c-", ""); print $2 }')"
+  brightness="$(ddcutil --bus $bus getvcp 10 | awk '{ gsub(",", ""); print $9 }')"
   echo "Brightness: $brightness" >> "$fn"
   echo "Cached at: $(date)" >> "$fn"
 done
 
-cd - > /dev/null 2>&1
-
-rm "$cache_dir/"display* > /dev/null 2>&1
+# clear the old cache files
+rm "$cache_dir/"* > /dev/null 2>&1
 mkdir -p "$cache_dir"
-mv "$working_dir"/* "$cache_dir"
+
+# install the new cache files
+for fn in $(ls -1 display* 2> /dev/null); do
+  mv "$fn" "$cache_dir"
+done
+
+# cleanup
+cd - > /dev/null 2>&1
 rmdir "$working_dir"
