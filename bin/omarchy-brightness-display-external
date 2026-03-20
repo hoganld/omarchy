@@ -1,8 +1,9 @@
 #!/bin/bash
 
+cache_dir=~/.local/state/ddcci
+
 find_cache_file() {
-  local serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused==true).serial')"
-  grep -il "$serial" "$HOME"/.local/state/ddcci/* 2> /dev/null
+  grep -il "$1" "$cache_dir"/display* 2> /dev/null
 }
 
 input="${1:-+5%}"
@@ -12,11 +13,13 @@ if [[ "$input" == "+"*"-" ]]; then
   exit 1
 fi
 
-cache_file="$(find_cache_file)"
+serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused==true).serial')"
+
+cache_file="$(find_cache_file "$serial")"
 # If no cache file is found, update the cache and try again
 if [[ -z "$cache_file" ]]; then
   $OMARCHY_PATH/bin/omarchy-ddcci-cache
-  cache_file="$(find_cache_file)"
+  cache_file="$(find_cache_file "$serial")"
 fi
 
 # If we still find no cache file, quit
@@ -25,28 +28,33 @@ if [[ -z "$cache_file" ]]; then
   exit 1
 fi
 
-# Pull the cached bus ID and brightness for the current monitor.
-bus="$(awk -F ":" '/I2C bus/ { gsub("/dev/i2c-", ""); print $2}' "$cache_file")"
-old_brightness="$(awk -F ":" '/Brightness/ { print $2 }' "$cache_file")"
+# Read the cached brightness for the current monitor.
+# 
+old_target="$(awk -F ":" '/Target Brightness/ { print $2 }' "$cache_file")"
 
 # Set the direction and degree of change.
 step=$(echo "$input" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
 if [[ "$input" == "+"* ]]; then
-  new_brightness=$(($old_brightness + $step))
+  new_target=$(($old_target + $step))
 elif [[ "$input" == *"-" ]]; then
-  new_brightness=$(($old_brightness - $step))
+  new_target=$(($old_target - $step))
 else
-  new_brightness=$step
+  new_target=$step
 fi
-new_brightness=$(($new_brightness < 0 ? 0 : $new_brightness))
-new_brightness=$(($new_brightness > 100 ? 100 : $new_brightness))
+new_target=$(($new_target < 0 ? 0 : $new_target))
+new_target=$(($new_target > 100 ? 100 : $new_target))
 
-# Set the actual brightness of the external display device.
-ddcutil --bus "$bus" setvcp 10 "$new_brightness"
+# Record the target brightness and add the display to the DDC/CI queue
+(flock -x 201
+ sed -i "s/^Target Brightness.*$/Target Brightness: $new_target/" "$cache_file"
+ if [[ -z $(grep "$serial" "$cache_dir"/queue 2>/dev/null) ]]; then
+   echo "$serial" >> "$cache_dir"/queue
+ fi
+) 201>"$cache_dir"/lock
+
+# Start the DDC/CI sync task
+systemctl --user start omarchy-ddcci-sync.timer
 
 # Use SwayOSD to display the new brightness setting.
-omarchy-swayosd-brightness "$new_brightness"
+omarchy-swayosd-brightness "$new_target"
 
-# Update the cache directly (calling omarchy-ddcci-cache would be too slow)
-sed -i "s/^Brightness.*$/Brightness: $new_brightness/" "$cache_file"
-sed -i "s/^Cached at.*$/Cached at: $(date)/" "$cache_file"
