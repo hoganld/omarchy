@@ -1,7 +1,7 @@
 #!/bin/bash
 
 find_cache_file() {
-  local serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).serial')"
+  local serial="$(hyprctl monitors -j | jq -r '.[] | select(.focused==true).serial')"
   grep -il "$serial" "$HOME"/.local/state/ddcci/* 2> /dev/null
 }
 

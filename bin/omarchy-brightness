@@ -1,7 +1,7 @@
 #!/bin/bash
 
 current_display_is_external() {
-  display="$(hyprctl monitors -j | jq -r '.[] | select(.focused = true).name')"
+  display="$(hyprctl monitors -j | jq -r '.[] | select(.focused==true).name')"
   laptop_prefixes=("eDP" "LVDS")
   for prefix in "${laptop_prefixes[@]}"; do
     if [[ "$display" == "$prefix"* ]]; then
