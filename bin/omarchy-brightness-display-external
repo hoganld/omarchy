@@ -24,7 +24,7 @@ fi
 
 # If we still find no cache file, quit
 if [[ -z "$cache_file" ]]; then
-  echo "Error: Cannot control this display with ddcutil."
+  omarchy-swayosd-brightness "0"
   exit 1
 fi
 
