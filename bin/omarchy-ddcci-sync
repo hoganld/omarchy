@@ -15,15 +15,17 @@
 # - remove PENDING file
 
 cache_dir=~/.local/state/ddcci
+queue_file="$cache_dir/queue"
+pending_file="$cache_dir/pending"
 
-if [[ -f "$cache_dir"/pending ]]; then
+if [[ -f "$pending_file" ]]; then
   exit 0
 fi
 
 exec {lock}>"$cache_dir"/lock
 flock -x "$lock"
 {
-  serial="$(head -n 1 "$cache_dir"/queue)"
+  serial="$(head -n 1 "$queue_file")"
   cache_file="$(grep -il "$serial" "$cache_dir"/display* 2>/dev/null)"
   current="$(awk '/Current Brightness/ { print $3 }' "$cache_file")"
   target="$(awk '/Target Brightness/ { print $3 }' "$cache_file")"
@@ -33,16 +35,16 @@ flock -x "$lock"
 if [[ "$current" == "$target" ]]; then
   flock -x "$lock"
   {
-    sed -i "/$serial/d" "$cache_dir"/queue
-    if [[ $(grep -v '^$' "$cache_dir"/queue | wc -l) == 0 ]]; then
+    sed -i "/$serial/d" "$queue_file"
+    if [[ $(grep -v '^$' "$queue_file" | wc -l) == 0 ]]; then
       systemctl --user stop omarchy-ddcci-sync.timer
     fi
   }
 else
-  touch "$cache_dir"/pending
+  touch "$pending_file"
   echo "1" >> ~/.local/state/ddcci/count
   ddcutil --bus "$bus" setvcp 10 "$target"
   sed -i "s/^Current Brightness.*$/Current Brightness: $target/" "$cache_file"
-  rm "$cache_dir"/pending
+  rm "$pending_file"
 fi
 

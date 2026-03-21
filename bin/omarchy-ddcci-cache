@@ -2,9 +2,11 @@
 
 working_dir=/tmp/ddcci
 cache_dir=~/.local/state/ddcci
+queue_file="$cache_dir/queue"
+pending_file="$cache_dir/pending"
 
 # short circuit if DDC/CI operations are in progress
-if [[ -f "$cache_dir"/pending || $(grep -v '^$' "$cache_dir"/queue | wc -l) != 0 ]]; then
+if [[ -f "$pending_file" || $(grep -v '^$' "$queue_file" | wc -l) != 0 ]]; then
   echo "Error: DDC/CI operations in progress"
   exit 1
 fi
@@ -37,7 +39,7 @@ done
  rm "$cache_dir/"display* > /dev/null 2>&1
  mkdir -p "$cache_dir"
  touch "$cache_dir"/lock
- touch "$cache_dir"/queue
+ touch "$queue_file"
 
  # install the new cache files
  for fn in $(ls -1 display* 2> /dev/null); do

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cache_dir=~/.local/state/ddcci
+queue_file="$cache_dir/queue"
 
 find_cache_file() {
   grep -il "$1" "$cache_dir"/display* 2> /dev/null
@@ -47,8 +48,8 @@ new_target=$(($new_target > 100 ? 100 : $new_target))
 # Record the target brightness and add the display to the DDC/CI queue
 (flock -x 201
  sed -i "s/^Target Brightness.*$/Target Brightness: $new_target/" "$cache_file"
- if [[ -z $(grep "$serial" "$cache_dir"/queue 2>/dev/null) ]]; then
-   echo "$serial" >> "$cache_dir"/queue
+ if [[ -z $(grep "$serial" "$queue_file" 2>/dev/null) ]]; then
+   echo "$serial" >> "$queue_file"
  fi
 ) 201>"$cache_dir"/lock
 
