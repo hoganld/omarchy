@@ -4,6 +4,16 @@ working_dir=/tmp/ddcci
 cache_dir=~/.local/state/ddcci
 lock_file="$cache_dir/lock"
 
+lockup() {
+  exec {LOCKFD}>"$lock_file" || return 1
+  flock -x $LOCKFD
+}
+
+unlock() {
+  test "$LOCKFD" || return 1
+  exec {LOCKFD}>&- && unset LOCKFD
+}
+
 # short circuit if DDC/CI operations are in progress
 if [[ -f "$cache_dir"/pending || $(grep -v '^$' "$cache_dir"/queue | wc -l) != 0 ]]; then
   echo "Error: DDC/CI operations in progress"
@@ -32,19 +42,17 @@ for fn in $(ls -1 display* 2> /dev/null); do
   echo "Target Brightness: $brightness" >> "$fn"
 done
 
-exec {lock}>"$lock_file"
-flock -x "$lock"
-{
-  # clear the old cache files
-  rm "$cache_dir/"display* > /dev/null 2>&1
-  mkdir -p "$cache_dir"
-  touch "$cache_dir"/queue
+lockup
+# clear the old cache files
+rm "$cache_dir/"display* > /dev/null 2>&1
+mkdir -p "$cache_dir"
+touch "$cache_dir"/queue
 
-  # install the new cache files
-  for fn in $(ls -1 display* 2> /dev/null); do
-    mv "$fn" "$cache_dir"
-  done
-}
+# install the new cache files
+for fn in $(ls -1 display* 2> /dev/null); do
+  mv "$fn" "$cache_dir"
+done
+unlock
 
 # cleanup
 cd - > /dev/null 2>&1
