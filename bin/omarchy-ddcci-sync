@@ -1,48 +1,40 @@
 #!/bin/bash
 
-# If PENDING file is present, exit immediately
-# Read the top serial number from the queue
-# Read the current brightness, target brightness, and bus id from the cache
-# If current brightness matches target brightness:
-# - remove the serial number from the queue
-# - if the queue is now empty:
-#   - stop the omarchy-ddcci-sync.timer
-#   - remove the queue file
-# If current brightness does not match target brightness:
-# - create PENDING file
-# - set the display to the target brightness
-# - update the cache with the new current brightness
-# - remove PENDING file
-
 cache_dir=~/.local/state/ddcci
 queue_file="$cache_dir/queue"
 pending_file="$cache_dir/pending"
+
+lockup() {
+  exec {lockfd}>"$cache_dir/lock" || return 1
+  flock -x $lockfd
+}
+
+unlock() {
+  test "$lockfd" || return 1
+  exec {lockfd}>&- && unset lockfd
+}
 
 if [[ -f "$pending_file" ]]; then
   exit 0
 fi
 
-exec {lock}>"$cache_dir"/lock
-flock -x "$lock"
-{
-  serial="$(head -n 1 "$queue_file")"
-  cache_file="$(grep -il "$serial" "$cache_dir"/display* 2>/dev/null)"
-  current="$(awk '/Current Brightness/ { print $3 }' "$cache_file")"
-  target="$(awk '/Target Brightness/ { print $3 }' "$cache_file")"
-  bus="$(awk '/I2C bus/ { gsub("/dev/i2c-", ""); print $3 }' "$cache_file")"
-}
+lockup
+serial="$(head -n 1 "$queue_file")"
+cache_file="$(grep -il "$serial" "$cache_dir"/display* 2>/dev/null)"
+current="$(awk '/Current Brightness/ { print $3 }' "$cache_file")"
+target="$(awk '/Target Brightness/ { print $3 }' "$cache_file")"
+bus="$(awk '/I2C bus/ { gsub("/dev/i2c-", ""); print $3 }' "$cache_file")"
+unlock
 
 if [[ "$current" == "$target" ]]; then
-  flock -x "$lock"
-  {
-    sed -i "/$serial/d" "$queue_file"
-    if [[ $(grep -v '^$' "$queue_file" | wc -l) == 0 ]]; then
-      systemctl --user stop omarchy-ddcci-sync.timer
-    fi
-  }
+  lockup
+  sed -i "/$serial/d" "$queue_file"
+  if [[ $(grep -v '^$' "$queue_file" | wc -l) == 0 ]]; then
+    systemctl --user stop omarchy-ddcci-sync.timer
+  fi
+  unlock
 else
   touch "$pending_file"
-  echo "1" >> ~/.local/state/ddcci/count
   ddcutil --bus "$bus" setvcp 10 "$target"
   sed -i "s/^Current Brightness.*$/Current Brightness: $target/" "$cache_file"
   rm "$pending_file"

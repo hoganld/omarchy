@@ -5,6 +5,16 @@ cache_dir=~/.local/state/ddcci
 queue_file="$cache_dir/queue"
 pending_file="$cache_dir/pending"
 
+lockup() {
+  exec {lockfd}>"$cache_dir/lock" || return 1
+  flock -x $lockfd
+}
+
+unlock() {
+  test "$lockfd" || return 1
+  exec {lockfd}>&- && unset lockfd
+}
+
 # short circuit if DDC/CI operations are in progress
 if [[ -f "$pending_file" || $(grep -v '^$' "$queue_file" | wc -l) != 0 ]]; then
   echo "Error: DDC/CI operations in progress"
@@ -13,7 +23,6 @@ fi
 
 # setup
 mkdir -p "$cache_dir"
-touch "$cache_dir"/lock
 rm -rf "$working_dir" > /dev/null 2>&1
 mkdir -p "$working_dir" > /dev/null 2>&1
 cd "$working_dir" > /dev/null 2>&1
@@ -34,18 +43,17 @@ for fn in $(ls -1 display* 2> /dev/null); do
   echo "Target Brightness: $brightness" >> "$fn"
 done
 
-(flock -x 200
- # clear the old cache files
- rm "$cache_dir/"display* > /dev/null 2>&1
- mkdir -p "$cache_dir"
- touch "$cache_dir"/lock
- touch "$queue_file"
+lockup
+# clear the old cache files
+rm "$cache_dir/"display* > /dev/null 2>&1
+mkdir -p "$cache_dir"
+touch "$queue_file"
 
- # install the new cache files
- for fn in $(ls -1 display* 2> /dev/null); do
-   mv "$fn" "$cache_dir"
- done
-) 200>"$cache_dir"/lock
+# install the new cache files
+for fn in $(ls -1 display* 2> /dev/null); do
+  mv "$fn" "$cache_dir"
+done
+unlock
 
 # cleanup
 cd - > /dev/null 2>&1

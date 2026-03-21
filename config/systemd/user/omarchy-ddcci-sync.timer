@@ -3,8 +3,8 @@ Description=Omarchy DDC/CI Sync Timer
 Requires=omarchy-ddcci-sync.service
 
 [Timer]
-OnUnitActiveSec=5sec
-AccuracySec=1sec
+OnUnitInactiveSec=5000ms
+AccuracySec=100ms
 
 [Install]
 WantedBy=timers.target
