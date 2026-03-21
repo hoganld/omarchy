@@ -1,9 +1,15 @@
 #!/bin/bash
 
 cache_dir=~/.local/state/ddcci
+queue_file="$cache_dir/queue"
+lock_file="$cache_dir/lock"
 
 find_cache_file() {
-  grep -il "$1" "$cache_dir"/display* 2> /dev/null
+  exec {lock}>"$lock_file"
+  flock -x "$lock"
+  {
+    grep -il "$1" "$cache_dir"/display* 2> /dev/null
+  }
 }
 
 input="${1:-+5%}"
@@ -28,33 +34,59 @@ if [[ -z "$cache_file" ]]; then
   exit 1
 fi
 
-# Read the cached brightness for the current monitor.
-# 
-old_target="$(awk -F ":" '/Target Brightness/ { print $2 }' "$cache_file")"
+exec {lock}>"$lock_file"
+flock -x "$lock"
+{
+  # Read the cached brightness for the current monitor.
+  old_target="$(awk '/Target Brightness/ { print $3 }' "$cache_file")"
 
-# Set the direction and degree of change.
-step=$(echo "$input" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
-if [[ "$input" == "+"* ]]; then
-  new_target=$(($old_target + $step))
-elif [[ "$input" == *"-" ]]; then
-  new_target=$(($old_target - $step))
-else
-  new_target=$step
-fi
-new_target=$(($new_target < 0 ? 0 : $new_target))
-new_target=$(($new_target > 100 ? 100 : $new_target))
+  # Set the direction and degree of change.
+  step=$(echo "$input" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
+  if [[ "$input" == "+"* ]]; then
+    new_target=$(($old_target + $step))
+  elif [[ "$input" == *"-" ]]; then
+    new_target=$(($old_target - $step))
+  else
+    new_target=$step
+  fi
+  new_target=$(($new_target < 0 ? 0 : $new_target))
+  new_target=$(($new_target > 100 ? 100 : $new_target))
 
-# Record the target brightness and add the display to the DDC/CI queue
-(flock -x 201
- sed -i "s/^Target Brightness.*$/Target Brightness: $new_target/" "$cache_file"
- if [[ -z $(grep "$serial" "$cache_dir"/queue 2>/dev/null) ]]; then
-   echo "$serial" >> "$cache_dir"/queue
- fi
-) 201>"$cache_dir"/lock
-
-# Start the DDC/CI sync task
-systemctl --user start omarchy-ddcci-sync.timer
+  # Record the target brightness and add the display to the DDC/CI queue
+  sed -i "s/^Target Brightness.*$/Target Brightness: $new_target/" "$cache_file"
+}
 
 # Use SwayOSD to display the new brightness setting.
 omarchy-swayosd-brightness "$new_target"
+
+if [[ -z $(grep "$serial" "$queue_file" 2>/dev/null) ]]; then
+  flock -x "$lock"
+  {
+    echo "$serial" >> "$queue_file"
+  }
+  last_modified=$(date +%s%3N)
+  interval="5000"
+  while [ $(($(date +%s%3N) - $last_modified)) -lt $interval ]; do
+    echo "sleeping for a while"
+    # FIXME this calculation will not work when interval is less than 1000
+    sleep $(($interval / 1000))
+    echo "checking again"
+    last_queue_mod=$(date -r "$queue_file" +%s%3N)
+    last_cache_mod=$(date -r "$cache_file" +%s%3N)
+    last_modified=$(($last_queue_mod > $last_cache_mod ? $last_queue_mod : $last_cache_mod))
+  done
+  current="$(awk '/Current Brightness/ { print $3 }' "$cache_file")"
+  target="$(awk '/Target Brightness/ { print $3 }' "$cache_file")"
+  bus="$(awk '/I2C bus/ { gsub("/dev/i2c-", ""); print $3 }' "$cache_file")"
+  if [[ "$target" != "$current" ]]; then
+    ddcutil --bus "$bus" setvcp 10 "$target"
+  fi
+  flock -x "$lock"
+  {
+    sed -i "s/^Current Brightness.*$/Current Brightness: $target/" "$cache_file"
+    sed -i "/$serial/d" "$queue_file"
+  }
+fi
+
+
 
