@@ -4,5 +4,5 @@ After=graphical-session.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/Work/omarchy/bin/omarchy-ddcci-sync
+ExecStart=%h/.local/share/omarchy/bin/omarchy-ddcci-sync
 LogLevelMax=warning
