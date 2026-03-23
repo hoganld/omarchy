@@ -5,7 +5,7 @@ fcitx5-remote -t
 im=$(fcitx5-remote)
 
 if [ $im = 1 ]; then
-  notify-send "ABC";
+  swayosd-client --custom-message "English"
 else
-  notify-send "文字";
+  swayosd-client --custom-message "日本語"
 fi
