@@ -32,9 +32,7 @@ cache_file="$(find_cache_file "$serial")"
 # If no cache file is found, update the cache and try again
 if [[ -z "$cache_file" ]]; then
   $OMARCHY_PATH/bin/omarchy-ddcci-cache
-  lockup
   cache_file="$(find_cache_file "$serial")"
-  unlock
 fi
 
 # If we still find no cache file, quit
