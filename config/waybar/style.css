@@ -34,7 +34,6 @@
 #battery,
 #pulseaudio,
 #custom-omarchy,
-#custom-language,
 #custom-update {
   min-width: 12px;
   margin: 0 7.5px;
@@ -53,8 +52,10 @@
 }
 
 #custom-language {
-  font-family: "Bruno Ace";
-  margin-right: 18px;
+  font-family: "Material Symbols Outlined";
+  font-size: 21px;
+  margin-top: 2px;
+  margin-right: 12px;
 }
 
 #custom-expand-icon {

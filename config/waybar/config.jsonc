@@ -57,8 +57,8 @@
     "exec": "omarchy-language-monitor",
     "format": "{icon}",
     "format-icons": {
-      "en": "a",
-      "jp": "󱌴",
+      "en": "\uf759",
+      "jp": "\uf513",
     },
     "return-type": "json",
     "restart-interval": 5,
