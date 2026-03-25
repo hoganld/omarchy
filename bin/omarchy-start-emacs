@@ -1,4 +1,4 @@
 #!/bin/bash
 
 xrdb -merge ~/.Xresources
-setsid uswm-app -- emacs --daemon >/dev/null 2>&1 &
+setsid uwsm-app -- emacs --daemon >/dev/null 2>&1 &
