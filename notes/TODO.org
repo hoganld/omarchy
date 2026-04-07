@@ -14,12 +14,13 @@ See commit 5f6b103
 - [ ] fcitx
 - [ ] dresscode
 
-** TODO Remove LocalSend/Nautilus integration
+** DONE Remove LocalSend/Nautilus integration
+CLOSED: [2026-04-07 Tue 11:13]
 See commit 05344eb
-- [ ] remove default/nautilus-python/extensions/localsend.py
-- [ ] remove install/config/all.sh
-- [ ] remove install/config/nautilus-python.sh
-- [ ] remove migrations/1773017819.sh
+- [X] remove default/nautilus-python/extensions/localsend.py
+- [X] edit install/config/all.sh
+- [X] remove install/config/nautilus-python.sh
+- [X] remove migrations/1773017819.sh
 
 ** TODO Make NPX AI packages opt-in
 See commits e294394, 906ad82
