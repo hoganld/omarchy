@@ -29,6 +29,7 @@ See commits e294394, 906ad82
 - [ ] Remove claude-code from install/omarchy-base.packages
 - [ ] Remove opencode system package (in a new migration)
 
-** TODO Remove Danger Mode
+** DONE Remove Danger Mode
+CLOSED: [2026-04-07 Tue 11:15]
 Giving an AI agent passwordless sudo privileges seems like a truly bad idea.
-- [ ] Remove bin/omarchy-sudo-passwordless-toggle
+- [X] Remove bin/omarchy-sudo-passwordless-toggle
