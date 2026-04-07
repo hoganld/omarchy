@@ -22,12 +22,13 @@ See commit 05344eb
 - [X] remove install/config/nautilus-python.sh
 - [X] remove migrations/1773017819.sh
 
-** TODO Make NPX AI packages opt-in
+** DONE Make NPX AI packages opt-in
+CLOSED: [2026-04-07 Tue 11:21]
 See commits e294394, 906ad82
-- [ ] Remove install/packaging/npx.sh from list in install/packaging/npx.sh
-- [ ] Remove migrations/1773598247.sh
-- [ ] Remove claude-code from install/omarchy-base.packages
-- [ ] Remove opencode system package (in a new migration)
+- [X] Remove install/packaging/npx.sh from list in install/packaging/all.sh
+- [X] Remove migrations/1773598247.sh
+- [X] Remove claude-code from install/omarchy-base.packages
+- [X] Remove opencode system package (in a new migration)
 
 ** DONE Remove Danger Mode
 CLOSED: [2026-04-07 Tue 11:15]
