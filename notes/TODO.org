@@ -1,32 +1,33 @@
 * 3.5 checklist
-** Remove more Makima bits
+** DONE Remove more Makima bits
+CLOSED: [2026-04-07 Tue 11:09]
 See commit 5f6b103
-- [ ] Remove bin/omarchy-setup-makima
-- [ ] Patch bin/omarchy-menu to get rid of "Key Remapping" option
-- [ ] Remove the custom migration to remove makima, obsolete it has become
+- [X] Remove bin/omarchy-setup-makima
+- [X] Patch bin/omarchy-menu to get rid of "Key Remapping" option
+- [X] Remove the custom migration to remove makima, obsolete it has become
 
-** Lumon Industries theme
+** TODO Lumon Industries theme
 - [ ] fcitx
 - [ ] dresscode
 
-** Retro 82 theme
+** TODO Retro 82 theme
 - [ ] fcitx
 - [ ] dresscode
 
-** Remove LocalSend/Nautilus integration
+** TODO Remove LocalSend/Nautilus integration
 See commit 05344eb
 - [ ] remove default/nautilus-python/extensions/localsend.py
 - [ ] remove install/config/all.sh
 - [ ] remove install/config/nautilus-python.sh
 - [ ] remove migrations/1773017819.sh
 
-** Make NPX AI packages opt-in
+** TODO Make NPX AI packages opt-in
 See commits e294394, 906ad82
 - [ ] Remove install/packaging/npx.sh from list in install/packaging/npx.sh
 - [ ] Remove migrations/1773598247.sh
 - [ ] Remove claude-code from install/omarchy-base.packages
 - [ ] Remove opencode system package (in a new migration)
 
-** Remove Danger Mode
+** TODO Remove Danger Mode
 Giving an AI agent passwordless sudo privileges seems like a truly bad idea.
 - [ ] Remove bin/omarchy-sudo-passwordless-toggle
