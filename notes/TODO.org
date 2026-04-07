@@ -6,13 +6,10 @@ See commit 5f6b103
 - [X] Patch bin/omarchy-menu to get rid of "Key Remapping" option
 - [X] Remove the custom migration to remove makima, obsolete it has become
 
-** TODO Lumon Industries theme
-- [ ] fcitx
-- [ ] dresscode
-
-** TODO Retro 82 theme
-- [ ] fcitx
-- [ ] dresscode
+** DONE New fcitx5 themes
+CLOSED: [2026-04-07 Tue 11:33]
+- [X] lumon
+- [X] retro-82
 
 ** DONE Remove LocalSend/Nautilus integration
 CLOSED: [2026-04-07 Tue 11:13]
