@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Set the active workspace layout to master
+omarchy-hyprland-workspace-layout master

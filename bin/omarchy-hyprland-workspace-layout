@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Set the active workspace layout
+ACTIVE_WORKSPACE=$(hyprctl activeworkspace -j | jq -r '.id')
+
+hyprctl keyword workspace $ACTIVE_WORKSPACE, layout:"$1"
+notify-send -u low "󱂬    Workspace layout set to $1"

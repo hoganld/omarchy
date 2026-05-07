@@ -30,9 +30,9 @@ xkb_symbols "pc105" {
     // Bind the unbound F keys
     key <FK13> {[ Multi_key ]};
     key <FK14> {[ Meta_L    ]};
-    key <FK15> {[ Meta_R    ]};
-    key <FK16> {[ Hyper_L   ]};
-    key <FK17> {[ Hyper_R   ]};
+    key <FK15> {[ Hyper_R   ]};
+    key <FK16> {[  F16      ]};
+    key <FK17> {[  F17      ]};
     key <FK18> {[  F18      ]};
     key <FK19> {[  F19      ]};
     key <FK24> {[  F24      ]};

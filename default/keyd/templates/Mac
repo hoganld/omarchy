@@ -12,7 +12,8 @@ include common.conf
 capslock = layer(control)
 leftalt = layer(meta)
 leftmeta = f14
-rightmeta = f17
+rightalt = f15
+rightmeta = layer(alt)
 leftcontrol = f24
 # ?? = f13
 # ?? = katakanahiragana
