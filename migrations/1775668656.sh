@@ -1,7 +1,7 @@
 echo "Update keyd config"
 sudo cp "$OMARCHY_PATH"/default/keyd/*.conf /etc/keyd/
 if [[ -f /etc/keyd/$(hostname).conf ]]; then
-  sudo sed -i "s/f17/f15/" $(hostname).conf
+  sudo sed -i "s/f17/f15/" /etc/keyd/$(hostname).conf
 fi
 
 echo "Restart keyd daemon"
