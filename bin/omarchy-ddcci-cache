@@ -38,7 +38,10 @@ done
 # Add current brightness and timestamp to each cache file
 for fn in $(ls -1 display* 2> /dev/null); do
   bus="$(cat "$fn" | awk -F ":" '/I2C bus/ { gsub("/dev/i2c-", ""); print $2 }')"
-  brightness="$(ddcutil --bus $bus getvcp 10 | awk '{ gsub(",", ""); print $9 }')"
+  vcpdata="$(ddcutil --bus $bus getvcp 10)"
+  brightness="$(echo $vcpdata | awk '{ gsub(",", ""); print $9 }')"
+  maximum="$(echo $vcpdata | awk '{ gsub(",", ""); print $13 }')"
+  echo "Maximum Brightness: $maximum" >> "$fn"
   echo "Current Brightness: $brightness" >> "$fn"
   echo "Target Brightness: $brightness" >> "$fn"
 done

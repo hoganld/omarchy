@@ -42,11 +42,13 @@ if [[ -z "$cache_file" ]]; then
 fi
 
 lockup
-# Read the cached brightness for the current monitor.
+# Read the maximum and cached brightness for the current monitor.
 old_target="$(awk -F ":" '/Target Brightness/ { print $2 }' "$cache_file")"
+max_target="$(awk -F ":" '/Maximum Brightness/ { print $2 }' "$cache_file")"
 
 # Set the direction and degree of change.
-step=$(echo "$input" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
+pct=$(echo "$input" | awk '{ gsub("\\+", ""); gsub("%", ""); gsub("-", ""); print $0 }')
+step=$(($max_target / 100 * $pct))
 if [[ "$input" == "+"* ]]; then
   new_target=$(($old_target + $step))
 elif [[ "$input" == *"-" ]]; then
@@ -55,7 +57,7 @@ else
   new_target=$step
 fi
 new_target=$(($new_target < 0 ? 0 : $new_target))
-new_target=$(($new_target > 100 ? 100 : $new_target))
+new_target=$(($new_target > $max_target ? $max_target : $new_target))
 
 # Record the target brightness and add the display to the DDC/CI queue
 sed -i "s/^Target Brightness.*$/Target Brightness: $new_target/" "$cache_file"
@@ -68,4 +70,5 @@ unlock
 systemctl --user start omarchy-ddcci-sync.timer
 
 # Use SwayOSD to display the new brightness setting.
-omarchy-swayosd-brightness "$new_target"
+scale=$(($max_target / 100))
+omarchy-swayosd-brightness "$(($new_target / $scale))"
