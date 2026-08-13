@@ -5,12 +5,11 @@ include common.conf
 
 # [main]
 # Set import key mappings in QMK:
-# f13     => Compose
-# f14/f15 => L/R Meta
-# f16/f17 => L/R Hyper
+# f13     => Meta
+# f14     => Hyper
 # f24     => Command
 
 # [shift]
 # esc = ~
 # katakanahiragana = capslock
-# f13 = capslock
+# shift = capslock

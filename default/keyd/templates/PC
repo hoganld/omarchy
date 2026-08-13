@@ -4,15 +4,13 @@ xxxx:yyyy
 include common.conf
 
 # Important key mappings
-# f13     => Compose
-# f14     => Meta
-# f15     => Hyper
+# f13     => Meta
+# f14     => Hyper
 # f24     => Command
 [main]
 capslock = layer(control)
 rightmeta = layer(alt)
-leftalt = f14
-rightmeta = f15
+leftalt = f13
+rightmeta = f14
 leftcontrol = f24
-# ?? = f13
 # ?? = katakanahiragana
