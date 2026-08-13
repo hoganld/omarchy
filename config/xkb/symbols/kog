@@ -22,14 +22,14 @@ xkb_symbols "pc105" {
     key <RTSH> {[  Shift_R    ]};
     key <LCTL> {[  Control_L  ]};
     key <RCTL> {[  Control_R  ]};
-    key <LALT> {[  Meta_L      ]};
+    key <LALT> {[  Alt_L      ]};
     key <RALT> {[  Alt_R      ]};
     key <LWIN> {[  Super_L    ]};
-    key <RWIN> {[  Hyper_R    ]};
+    key <RWIN> {[  Super_R    ]};
 
     // Bind the unbound F keys
-    key <FK13> {[ Multi_key ]};
-    key <FK14> {[  F14      ]};
+    key <FK13> {[  Meta_L   ]};
+    key <FK14> {[  Hyper_R  ]};
     key <FK15> {[  F15      ]};
     key <FK16> {[  F16      ]};
     key <FK17> {[  F17      ]};
@@ -38,6 +38,9 @@ xkb_symbols "pc105" {
     key <FK24> {[  F24      ]};
 
     key <MENU> {[  Menu  ]};
+
+    key  <INS> {[  Multi_key ]};
+    
 
     // To the standard modifiers we add Meta, Hyper and F24 ("Command")
     modifier_map Shift   { Shift_L, Shift_R };
@@ -57,7 +60,7 @@ xkb_symbols "pc105" {
     key <META> {[  NoSymbol, Meta_L  ]};
     modifier_map Mod2  { <META> };
 
-    key <HYPR> {[  NoSymbol, Hyper_L  ]};
+    key <HYPR> {[  NoSymbol, Hyper_R  ]};
     modifier_map Mod3  { <HYPR> };
 
     key <SUPR> {[  NoSymbol, Super_L  ]};
@@ -72,7 +75,6 @@ xkb_symbols "pc105" {
     key <SCLK> {[  Scroll_Lock  ]};
     key <PAUS> {[  Pause,  Break  ], type="PC_CONTROL_LEVEL2" };
 
-    key  <INS> {[  Insert  ]};
     key <DELE> {[  Delete  ]};
     key <HOME> {[  Home    ]};
     key  <END> {[  End     ]};
